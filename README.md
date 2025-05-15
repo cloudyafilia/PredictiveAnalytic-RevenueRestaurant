@@ -1,9 +1,9 @@
 # Laporan Proyek Machine Learning - Restaurant Revenue Prediction
 
 ## Domain Proyek
-Industri restoran merupakan salah satu sektor ekonomi yang memiliki kontribusi signifikan terhadap perekonomian global dan regional. Di tengah persaingan bisnis yang semakin ketat, kemampuan untuk memprediksi pendapatan (revenue) restoran menjadi sangat penting bagi pemilik usaha dan investor dalam merancang strategi bisnis yang efektif. Faktor-faktor seperti lokasi restoran, jenis layanan (cuisine), kapasitas tempat duduk, anggaran pemasaran, kualitas layanan, hingga ulasan pelanggan menjadi variabel kunci yang secara langsung maupun tidak langsung mempengaruhi kinerja finansial sebuah restoran. Dalam konteks manajemen bisnis modern, pengambilan keputusan berbasis data (data-driven decision making) menjadi pendekatan yang semakin krusial untuk mempertahankan daya saing dan meningkatkan efisiensi operasional (Chathoth et al., 2007).
+Industri restoran merupakan salah satu sektor ekonomi yang memiliki kontribusi signifikan terhadap perekonomian global dan regional. Di tengah persaingan bisnis yang semakin ketat, kemampuan untuk memprediksi pendapatan (revenue) restoran menjadi sangat penting bagi pemilik usaha dan investor dalam merancang strategi bisnis yang efektif (Fatmah et al., 2024). Faktor-faktor seperti lokasi restoran, jenis layanan (cuisine), kapasitas tempat duduk, anggaran pemasaran, kualitas layanan, hingga ulasan pelanggan menjadi variabel kunci yang secara langsung maupun tidak langsung mempengaruhi kinerja finansial sebuah restoran. Dalam konteks manajemen bisnis modern, pengambilan keputusan berbasis data (data-driven decision making) menjadi pendekatan yang semakin krusial untuk mempertahankan daya saing dan meningkatkan efisiensi operasional (Wulandari et al., 2023).
 
-Seiring berkembangnya teknologi kecerdasan buatan dan machine learning, pemanfaatan model prediktif untuk mengestimasi revenue restoran menjadi semakin relevan. Model machine learning mampu mengenali pola kompleks dan hubungan non-linear antar variabel yang sulit ditangkap oleh analisis konvensional. Hal ini memungkinkan pelaku bisnis untuk mendapatkan proyeksi pendapatan yang lebih akurat, sekaligus mengidentifikasi faktor-faktor utama yang dapat dioptimalkan guna meningkatkan profitabilitas. Dengan kata lain, prediksi revenue berbasis machine learning tidak hanya membantu dalam forecasting, tetapi juga menjadi alat strategis untuk pengambilan keputusan bisnis jangka panjang di sektor restoran (Pereira et al., 2020).
+Seiring berkembangnya teknologi kecerdasan buatan dan machine learning, pemanfaatan model prediktif untuk mengestimasi revenue restoran menjadi semakin relevan (Permana et al., 2023). Model machine learning mampu mengenali pola kompleks dan hubungan non-linear antar variabel yang sulit ditangkap oleh analisis konvensional. Hal ini memungkinkan pelaku bisnis untuk mendapatkan proyeksi pendapatan yang lebih akurat, sekaligus mengidentifikasi faktor-faktor utama yang dapat dioptimalkan guna meningkatkan profitabilitas. Dengan kata lain, prediksi revenue berbasis machine learning tidak hanya membantu dalam forecasting, tetapi juga menjadi alat strategis untuk pengambilan keputusan bisnis jangka panjang di sektor restoran (Triansyah et al., 2024).
 
 ## Business Understanding
 
@@ -65,33 +65,6 @@ Berdasarkan masalah dan tujuan di atas, maka dapat diterapkan solusi sebagai ber
   - **Weekend Reservations**: Jumlah reservasi yang dilakukan saat akhir pekan.
   - **Weekday Reservations**: Jumlah reservasi yang dilakukan saat hari kerja.
   - **Revenue**: Total pendapatan yang dihasilkan oleh restoran (target prediksi).
-
-- Dari kolom-kolom tersebut, tipe data dapat dirangkum sebagai berikut:
-  - **Fitur Kategorikal**:
-    - Name
-    - Location
-    - Cuisine
-    - Parking Availability
-  - **Fitur Numerikal**:
-    - Rating
-    - Seating Capacity
-    - Average Meal Price
-    - Marketing Budget
-    - Social Media Followers
-    - Chef Experience Years
-    - Number of Reviews
-    - Avg Review Length
-    - Ambience Score
-    - Service Quality Score
-    - Weekend Reservations
-    - Weekday Reservations
-    - Revenue (target)
-
-- Kolom **Name** diidentifikasi sebagai kolom identitas dan tidak memiliki kontribusi terhadap prediksi, sehingga dihapus pada tahap preprocessing.
-
-- Tidak ditemukan missing values dalam dataset ini.
-
-- Distribusi target Revenue menunjukkan adanya outlier, sehingga dilakukan penanganan menggunakan metode Interquartile Range (IQR) untuk meminimalkan pengaruh ekstrem pada hasil prediksi.
 
 #### EDA - Univariate Analisis
 
@@ -206,40 +179,290 @@ Berdasarkan masalah dan tujuan di atas, maka dapat diterapkan solusi sebagai ber
 ![image](https://github.com/user-attachments/assets/3db3233b-c2fb-402c-b948-9de99a7a5051)
 
 ## Data Preparation
-- Menghapus kolom `Name`.
-- Outlier handling menggunakan metode IQR.
-- OneHotEncoding untuk fitur kategorikal (Location, Cuisine, Parking Availability).
-- Passthrough untuk fitur numerikal.
-- StandardScaler diterapkan setelah encoding untuk KNN.
-- Train-Test Split (80% - 20%).
+
+### Menangani Duplikasi Data dalam DataFrame
+
+- Dataset diperiksa untuk mengetahui apakah ada baris duplikat.
+- Jika ditemukan, baris tersebut dihapus untuk menghindari bias dalam analisis dan pemodelan.
+- Tujuannya adalah menjaga kualitas dan integritas data agar hasil prediksi tidak salah arah.
+
+### Menghapus Kolom Tidak Relevan
+
+- Kolom `Name` dihapus karena hanya berisi identitas unik restoran.
+- Kolom ini tidak memiliki nilai prediktif terhadap target `Revenue`.
+- Menghapus fitur seperti ini juga membantu menyederhanakan struktur data.
+
+### Penanganan Outlier
+
+- Outlier dideteksi menggunakan metode **Interquartile Range (IQR)**.
+- Fokus utama penanganan outlier berada pada kolom **Revenue**.
+- Langkah-langkahnya:
+  - Hitung nilai **Q1 (25th percentile)** dan **Q3 (75th percentile)**.
+  - Hitung **IQR = Q3 - Q1**.
+  - Tentukan batas bawah (**Q1 - 1.5 * IQR**) dan batas atas (**Q3 + 1.5 * IQR**).
+  - Data di luar batas tersebut dianggap sebagai outlier.
+- Outlier pada `Revenue` dihapus agar model tidak bias oleh nilai ekstrem.
+- Tujuan: menjaga performa model tetap stabil dan akurat.
+
+### Identifikasi Fitur Kategorikal dan Numerikal
+
+- **Fitur Kategorikal**:
+  - Location
+  - Cuisine
+  - Parking Availability
+
+- **Fitur Numerikal**:
+  - Rating
+  - Seating Capacity
+  - Average Meal Price
+  - Marketing Budget
+  - Social Media Followers
+  - Chef Experience Years
+  - Number of Reviews
+  - Avg Review Length
+  - Ambience Score
+  - Service Quality Score
+  - Weekend Reservations
+  - Weekday Reservations
+
+### Pemisahan Fitur dan Target
+
+- Dataset dipisahkan menjadi:
+  - **X** → Semua fitur (independen)
+  - **y** → Target prediksi, yaitu kolom `Revenue`
+
+### Pembagian Dataset
+
+- Dataset dibagi menjadi data latih dan data uji dengan rasio **80:20**
+- Jumlah data latih: 6694
+- Jumlah data uji: 1674
+
+### Encoding Fitur Kategorikal
+
+- Fitur kategorikal diubah ke bentuk numerik menggunakan **OneHotEncoder**
+- Encoding dilakukan setelah split untuk menghindari data leakage
+- Fitur yang di-encode:
+  - Location
+  - Cuisine
+  - Parking Availability
+- Gunakan `handle_unknown='ignore'` agar aman kalau ada kategori baru di data uji
+
+### Standarisasi Fitur Numerikal
+
+- Fitur numerikal dinormalisasi menggunakan **StandardScaler**
+- Penting untuk model yang sensitif terhadap skala seperti **KNN**
+- Hasilnya: semua fitur numerik punya mean = 0 dan std = 1
 
 ## Modeling
-Model yang digunakan:
-1. Linear Regression
-2. Decision Tree Regressor
-3. Random Forest Regressor
-4. Gradient Boosting Regressor
-5. K-Nearest Neighbor (KNN)
+## Modeling
+
+Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapkan untuk memodelkan hubungan antara fitur-fitur restoran dan total pendapatan (Revenue). Linear Regression digunakan sebagai baseline model untuk mengidentifikasi hubungan linier dasar. Decision Tree Regressor diaplikasikan untuk menangkap pola non-linier melalui pemodelan berbasis aturan keputusan. Random Forest Regressor digunakan sebagai ensemble berbasis pohon yang memadukan prediksi banyak pohon untuk meningkatkan akurasi dan mengurangi overfitting. Gradient Boosting Regressor memperbaiki kesalahan prediksi secara bertahap sehingga seringkali menghasilkan performa terbaik. Terakhir, K-Nearest Neighbors (KNN) diterapkan untuk memprediksi revenue berdasarkan kemiripan fitur antar restoran.
+
+Setiap model memiliki karakteristik, kelebihan, dan kekurangannya masing-masing. Oleh karena itu, digunakan beberapa model untuk membandingkan efektivitas dan akurasi prediksi revenue.
+
+Tahapan ini membahas mengenai model machine learning yang digunakan untuk menyelesaikan permasalahan prediksi revenue restoran.
+
+### 1. Linear Regression
+
+**Linear Regression** adalah model dasar yang memprediksi revenue restoran berdasarkan hubungan linier antara fitur-fitur seperti Seating Capacity, Average Meal Price, Marketing Budget, dan lainnya. Model ini berasumsi bahwa hubungan antara fitur dan target bersifat linier.
+
+- **Kelebihan**:
+  - Interpretasi koefisien mudah dan intuitif.
+  - Implementasi sederhana dan efisien.
+  - Komputasi cepat dan ringan.
+
+- **Kekurangan**:
+  - Mengasumsikan hubungan linier (tidak fleksibel untuk pola non-linear).
+  - Sensitif terhadap outlier.
+  - Tidak mampu menangkap interaksi kompleks antar fitur.
+
+### 2. Decision Tree Regressor
+
+**Decision Tree Regressor** memprediksi revenue dengan membangun serangkaian aturan keputusan berbasis nilai fitur. Model ini mampu menangkap pola non-linear dan interaksi antar fitur tanpa memerlukan transformasi data.
+
+- **Kelebihan**:
+  - Mampu menangkap hubungan non-linear dan interaksi fitur.
+  - Tidak memerlukan penskalaan fitur.
+  - Interpretasi mudah melalui visualisasi pohon keputusan.
+
+- **Kekurangan**:
+  - Rentan terhadap overfitting (terlalu menyesuaikan dengan data latih).
+  - Tidak stabil terhadap perubahan kecil pada data latih.
+
+### 3. Random Forest Regressor
+
+**Random Forest Regressor** adalah model ensemble yang membangun banyak decision tree dan menggabungkan hasilnya untuk memprediksi revenue. Teknik ini membantu mengurangi overfitting dan meningkatkan generalisasi.
+
+- **Kelebihan**:
+  - Lebih akurat dibanding single decision tree.
+  - Mengurangi overfitting dengan averaging hasil banyak pohon.
+  - Dapat memberikan estimasi pentingnya fitur (feature importance).
+
+- **Kekurangan**:
+  - Lebih lambat secara komputasi dibanding single tree.
+  - Interpretasi hasil model lebih sulit dibanding pohon tunggal.
+
+### 4. Gradient Boosting Regressor
+
+**Gradient Boosting Regressor** membangun model secara bertahap, di mana setiap pohon berikutnya mencoba memperbaiki kesalahan prediksi dari pohon sebelumnya. Model ini sering memberikan hasil terbaik dalam berbagai kompetisi prediksi.
+
+- **Kelebihan**:
+  - Akurasi tinggi dengan kemampuan menangkap pola kompleks.
+  - Fleksibel untuk berbagai fungsi loss.
+  - Dapat mengatasi outlier dengan lebih baik dibanding Random Forest.
+
+- **Kekurangan**:
+  - Rentan overfitting jika parameter tidak diatur dengan benar.
+  - Waktu pelatihan lebih lama dibanding Random Forest.
+  - Interpretasi model lebih sulit.
+
+### 5. K-Nearest Neighbors (KNN)
+
+**K-Nearest Neighbors (KNN)** memprediksi revenue berdasarkan kedekatan fitur dengan data restoran lain. Model ini menghitung jarak antar data untuk menentukan prediksi.
+
+- **Kelebihan**:
+  - Sederhana dan mudah dipahami.
+  - Tidak mengasumsikan bentuk hubungan linier atau non-linier.
+  - Dapat bekerja baik untuk dataset kecil dengan pola lokal.
+
+- **Kekurangan**:
+  - Sensitif terhadap skala fitur (memerlukan standarisasi).
+  - Pemilihan parameter `k` sangat mempengaruhi hasil.
+  - Kurang efisien pada dataset besar karena menghitung jarak ke semua data latih.
 
 ## Evaluation
-Evaluasi dilakukan menggunakan:
-- **Mean Squared Error (MSE)**
-- **Root Mean Squared Error (RMSE)**
-- **Mean Absolute Error (MAE)**
-- **R-squared (R²)**
 
-Setiap model dievaluasi dengan keempat metrik tersebut, ditampilkan dalam tabel ranking performa model. Model terbaik dipilih berdasarkan total skor ranking dari semua metrik.
+Bagian ini membahas evaluasi performa model prediksi revenue restoran yang telah dikembangkan. Evaluasi dilakukan dengan menggunakan metrik standar regresi seperti **Mean Squared Error (MSE)**, **Root Mean Squared Error (RMSE)**, **Mean Absolute Error (MAE)**, dan **R-squared (R²)**. 
 
-### Feature Importance
-- Dilakukan analisis feature importance untuk Linear Regression berdasarkan nilai koefisien.
-- Fitur penting: Seating Capacity, Marketing Budget, Average Meal Price, Customer Reviews, Weekly Reservations, Service Quality Score.
+- **MSE** mengukur rata-rata kuadrat selisih antara nilai revenue prediksi dan nilai revenue aktual.
+- **RMSE** memberikan interpretasi kesalahan dalam satuan yang sama dengan target (revenue).
+- **MAE** mengukur rata-rata kesalahan absolut antara prediksi dan nilai aktual.
+- **R-squared (R²)** mengukur seberapa baik model menjelaskan variasi data revenue secara keseluruhan.
+
+Melalui analisis metrik ini, diperoleh pemahaman tentang seberapa akurat dan stabil performa model prediksi revenue yang telah dibangun.
+
+#### 1. Mean Squared Error (MSE)
+
+- **Mean Squared Error (MSE)** digunakan sebagai ukuran absolut rata-rata besarnya kesalahan prediksi.
+- MSE dihitung dengan cara mengkuadratkan selisih antara nilai revenue prediksi dengan nilai revenue aktual, kemudian dirata-ratakan.
+- Nilai MSE yang lebih rendah menunjukkan bahwa model memiliki kesalahan prediksi yang kecil.
+
+**Rumus MSE**:
+$$
+MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
+$$
+
+- MSE memberikan bobot lebih besar pada kesalahan prediksi yang besar (kuadrat dari error).
+- Oleh karena itu, MSE sensitif terhadap outlier.
+- Semakin kecil nilai MSE, semakin baik performa model.
+
+#### 2. Root Mean Squared Error (RMSE)
+
+- **RMSE** adalah akar dari nilai MSE.
+- RMSE memiliki satuan yang sama dengan target (revenue), sehingga lebih mudah diinterpretasikan.
+- Nilai RMSE memberikan estimasi rata-rata seberapa besar deviasi prediksi model terhadap nilai revenue aktual.
+
+**Rumus RMSE**:
+$$
+RMSE = \sqrt{MSE}
+$$
+
+- RMSE sering digunakan bersamaan dengan MSE karena interpretasinya yang lebih intuitif.
+
+#### 3. Mean Absolute Error (MAE)
+
+- **Mean Absolute Error (MAE)** mengukur rata-rata kesalahan absolut antara prediksi dan nilai aktual.
+- MAE lebih robust terhadap outlier dibanding MSE.
+- Nilai MAE yang rendah menunjukkan bahwa prediksi model mendekati nilai aktual.
+
+**Rumus MAE**:
+$$
+MAE = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|
+$$
+
+- MAE dihitung tanpa mengkuadratkan selisih error, sehingga memberikan bobot kesalahan yang proporsional.
+
+#### 4. R-squared (R²)
+
+- **R-squared (Koefisien Determinasi)** menunjukkan seberapa baik model mampu menjelaskan variasi pada data revenue.
+- Nilai R² berkisar antara 0 dan 1.
+  - R² = 1 artinya model menjelaskan 100% variasi data.
+  - R² = 0 artinya model tidak menjelaskan variasi data sama sekali.
+
+**Rumus R²**:
+$$
+R^2 = 1 - \frac{SS_{res}}{SS_{tot}}
+$$
+di mana:
+- $SS_{res} = \sum (y_i - \hat{y}_i)^2$ → jumlah kuadrat kesalahan prediksi.
+- $SS_{tot} = \sum (y_i - \bar{y})^2$ → total variasi data terhadap rata-rata.
+
+- Nilai R² yang mendekati 1 menunjukkan model yang baik dalam menjelaskan variasi revenue.
+- Sebaliknya, nilai R² mendekati 0 menunjukkan model kurang mampu menangkap pola data.
+
+### Evaluasi Model
+
+| Model                     | MSE           | RMSE        | MAE         | R²       | Rank_MSE | Rank_RMSE | Rank_MAE | Rank_R² | Total Score |
+|---------------------------|---------------|-------------|-------------|----------|----------|-----------|----------|---------|-------------|
+| Linear Regression          | 2.672e+09     | 51695.05    | 39515.84    | 0.956909 | 4        | 4         | 4        | 4       | 16          |
+| Decision Tree              | 2.407e+08     | 15513.61    | 11858.45    | 0.996119 | 3        | 3         | 3        | 3       | 12          |
+| **Random Forest**          | **6.417e+07** | **8010.74** | **6175.19** | **0.998965** | **1**    | **1**     | **1**    | **1**   | **4**       |
+| Gradient Boosting          | 9.407e+07     | 9699.03     | 7470.66     | 0.998483 | 2        | 2         | 2        | 2       | 8           |
+| K-Nearest Neighbors (K=5)  | 5.945e+09     | 77101.83    | 61829.45    | 0.904145 | 5        | 5         | 5        | 5       | 20          |
+
+Model terbaik berdasarkan gabungan semua metrik: **Random Forest** (Total Score = 4)
+
+## Feature Importance
+
+Bagian ini membahas tentang fitur-fitur apa saja yang paling berpengaruh terhadap prediksi revenue restoran, berdasarkan hasil feature importance dari beberapa model regresi yang telah diterapkan.
+
+![image](https://github.com/user-attachments/assets/c64879e8-ff51-45c3-bf29-3a29faebf14f)
+
+![image](https://github.com/user-attachments/assets/b235e4fb-b791-4fb8-991b-c1ace958a6ed)
+
+![image](https://github.com/user-attachments/assets/0faa1b95-c085-43c6-a905-e29518e1cd85)
+
+![image](https://github.com/user-attachments/assets/5faee70e-fb88-41a0-8f3d-433623f6230c)
+
+Berdasarkan hasil analisis feature importance dari empat model regresi (Linear Regression, Decision Tree, Random Forest, dan Gradient Boosting), ditemukan bahwa fitur-fitur berikut secara konsisten memiliki pengaruh paling signifikan terhadap prediksi revenue restoran:
+
+- **Marketing Budget**  
+  Faktor utama yang mempengaruhi pendapatan restoran. Semakin besar anggaran pemasaran, semakin besar peluang meningkatkan revenue melalui promosi dan jangkauan pelanggan.
+
+- **Average Meal Price**  
+  Harga rata-rata makanan menunjukkan kontribusi signifikan terhadap total revenue. Harga yang optimal akan mempengaruhi margin keuntungan dan jumlah transaksi.
+
+- **Seating Capacity**  
+  Kapasitas tempat duduk menentukan potensi maksimum pelanggan yang dapat dilayani, sehingga berperan besar dalam skala pendapatan.
+
+Selain ketiga fitur utama tersebut, beberapa fitur lain juga memberikan kontribusi meskipun tidak sebesar faktor di atas, seperti:
+
+- **Social Media Followers**  
+  Meningkatkan visibilitas dan brand awareness restoran, yang secara tidak langsung mendorong peningkatan revenue.
+
+- **Service Quality Score** dan **Ambience Score**  
+  Meskipun kontribusinya lebih kecil, kualitas layanan dan suasana restoran tetap menjadi faktor yang mempengaruhi pengalaman pelanggan dan loyalitas.
+
 
 ## Conclusion
-- Gradient Boosting Regressor menjadi model terbaik untuk prediksi revenue restoran.
-- Faktor utama yang mempengaruhi revenue meliputi kapasitas tempat duduk, anggaran marketing, harga rata-rata makanan, ulasan pelanggan, dan kualitas layanan.
-- Model memberikan insight berbasis data untuk mendukung keputusan bisnis di industri restoran.
+
+Berdasarkan hasil eksperimen dan evaluasi terhadap berbagai model regresi yang diterapkan, proyek ini berhasil menjawab rumusan masalah yang telah ditetapkan, yaitu memprediksi revenue restoran berdasarkan fitur-fitur karakteristik restoran serta memahami hubungan antar fitur terhadap pendapatan.
+
+1. Proyek ini telah mengembangkan beberapa model prediksi revenue dengan pendekatan Machine Learning, yaitu Linear Regression, Decision Tree Regressor, Random Forest Regressor, Gradient Boosting Regressor, dan K-Nearest Neighbors (KNN). Evaluasi performa model menggunakan metrik MSE, RMSE, MAE, dan R² menunjukkan bahwa **Random Forest Regressor** menjadi model terbaik dengan akurasi tertinggi dan kesalahan prediksi terendah. Model ini dipilih karena mampu menggabungkan prediksi dari banyak decision tree secara ensemble, sehingga menghasilkan model yang kuat, akurat, dan tahan terhadap overfitting.
+
+2. Hasil analisis feature importance dari berbagai model mengungkapkan bahwa faktor-faktor berikut memiliki pengaruh terbesar terhadap prediksi revenue restoran:
+- **Marketing Budget**: Faktor utama yang berkontribusi signifikan terhadap pendapatan melalui aktivitas promosi dan pemasaran.
+- **Average Meal Price**: Harga rata-rata menu yang mempengaruhi margin keuntungan dan daya beli pelanggan.
+- **Seating Capacity**: Menentukan potensi jumlah pelanggan yang dapat dilayani secara fisik.
+Fitur tambahan seperti **Social Media Followers**, **Service Quality Score**, dan **Ambience Score** juga menunjukkan pengaruh meskipun tidak sebesar tiga faktor utama di atas.
+
+### Insight
+Dengan memanfaatkan model Machine Learning, khususnya Random Forest, prediksi revenue restoran dapat dilakukan secara akurat berdasarkan data karakteristik restoran. Selain itu, pemahaman mengenai fitur-fitur yang paling berpengaruh dapat menjadi acuan strategis bagi pelaku bisnis restoran dalam mengoptimalkan pendapatan melalui pengelolaan anggaran pemasaran, penetapan harga menu, dan manajemen kapasitas layanan. Model yang telah dibangun menunjukkan bahwa penerapan kecerdasan buatan dalam analisis bisnis restoran memberikan manfaat nyata dalam mendukung pengambilan keputusan berbasis data.
+
 
 ## Referensi
 - Dataset: [Restaurant Revenue Prediction - Kaggle](https://www.kaggle.com/c/restaurant-revenue-prediction)
-- Géron, A. (2022). *Hands-On Machine Learning*.
-- Hastie, T., Tibshirani, R., & Friedman, J. (2017). *The Elements of Statistical Learning*.
+- Fatmah, F., Supriyanto, E., Budiman, D., Maichal, M., Ghozali, Z., Ismail, H., ... & Musty, B. (2024). UMKM & kewirausahaan: Panduan praktis. PT. Sonpedia Publishing Indonesia.
+- Permana, A. A., Darmawan, R., Saputri, F. R., Harto, B., Al-Hakim, R. R., Wijayanti, R. R., ... & Rukmana, A. Y. (2023). Artificial Intelligence Marketing. Padang: Global Eksekutif Teknologi.
+- Triansyah, F. A., Hasmirati, S. A., Soleh, S., MSI, M., Asep Deni, M. M., Khasanah, S. P., ... & Triantoro, I. T. (2024). Manajemen Strategi Menghadapi Industri 5.0. Cendikia Mulia Mandiri.
+- Wulandari, A. R., Arvi, A. A., Iqbal, M. I., Tyas, F., Kurniawan, I., & Anshori, M. I. (2023). Digital Hr: Digital transformation in increasing productivity in the work environment. Jurnal Publikasi Ilmu Manajemen, 2(4), 29-42.
