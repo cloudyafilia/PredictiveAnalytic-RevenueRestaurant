@@ -254,13 +254,8 @@ Berdasarkan masalah dan tujuan di atas, maka dapat diterapkan solusi sebagai ber
 - Hasilnya: semua fitur numerik punya mean = 0 dan std = 1
 
 ## Modeling
-## Modeling
 
-Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapkan untuk memodelkan hubungan antara fitur-fitur restoran dan total pendapatan (Revenue). Linear Regression digunakan sebagai baseline model untuk mengidentifikasi hubungan linier dasar. Decision Tree Regressor diaplikasikan untuk menangkap pola non-linier melalui pemodelan berbasis aturan keputusan. Random Forest Regressor digunakan sebagai ensemble berbasis pohon yang memadukan prediksi banyak pohon untuk meningkatkan akurasi dan mengurangi overfitting. Gradient Boosting Regressor memperbaiki kesalahan prediksi secara bertahap sehingga seringkali menghasilkan performa terbaik. Terakhir, K-Nearest Neighbors (KNN) diterapkan untuk memprediksi revenue berdasarkan kemiripan fitur antar restoran.
-
-Setiap model memiliki karakteristik, kelebihan, dan kekurangannya masing-masing. Oleh karena itu, digunakan beberapa model untuk membandingkan efektivitas dan akurasi prediksi revenue.
-
-Tahapan ini membahas mengenai model machine learning yang digunakan untuk menyelesaikan permasalahan prediksi revenue restoran.
+Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapkan untuk memodelkan hubungan antara fitur-fitur restoran dan total pendapatan (Revenue). Linear Regression digunakan sebagai baseline model untuk mengidentifikasi hubungan linier dasar. Decision Tree Regressor diaplikasikan untuk menangkap pola non-linier melalui pemodelan berbasis aturan keputusan. Random Forest Regressor digunakan sebagai ensemble berbasis pohon yang memadukan prediksi banyak pohon untuk meningkatkan akurasi dan mengurangi overfitting. Gradient Boosting Regressor memperbaiki kesalahan prediksi secara bertahap sehingga seringkali menghasilkan performa terbaik. Terakhir, K-Nearest Neighbors (KNN) diterapkan untuk memprediksi revenue berdasarkan kemiripan fitur antar restoran. Setiap model memiliki karakteristik, kelebihan, dan kekurangannya masing-masing. Oleh karena itu, digunakan beberapa model untuk membandingkan efektivitas dan akurasi prediksi revenue. Tahapan ini membahas mengenai model machine learning yang digunakan untuk menyelesaikan permasalahan prediksi revenue restoran.
 
 ### 1. Linear Regression
 
@@ -348,6 +343,7 @@ Melalui analisis metrik ini, diperoleh pemahaman tentang seberapa akurat dan sta
 - Nilai MSE yang lebih rendah menunjukkan bahwa model memiliki kesalahan prediksi yang kecil.
 
 **Rumus MSE**:
+
 $$
 MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
 $$
@@ -363,6 +359,7 @@ $$
 - Nilai RMSE memberikan estimasi rata-rata seberapa besar deviasi prediksi model terhadap nilai revenue aktual.
 
 **Rumus RMSE**:
+
 $$
 RMSE = \sqrt{MSE}
 $$
@@ -376,6 +373,7 @@ $$
 - Nilai MAE yang rendah menunjukkan bahwa prediksi model mendekati nilai aktual.
 
 **Rumus MAE**:
+
 $$
 MAE = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|
 $$
@@ -390,6 +388,7 @@ $$
   - R² = 0 artinya model tidak menjelaskan variasi data sama sekali.
 
 **Rumus R²**:
+
 $$
 R^2 = 1 - \frac{SS_{res}}{SS_{tot}}
 $$
