@@ -392,6 +392,7 @@ $$
 $$
 R^2 = 1 - \frac{SS_{res}}{SS_{tot}}
 $$
+
 di mana:
 - $SS_{res} = \sum (y_i - \hat{y}_i)^2$ → jumlah kuadrat kesalahan prediksi.
 - $SS_{tot} = \sum (y_i - \bar{y})^2$ → total variasi data terhadap rata-rata.
