@@ -456,8 +456,5 @@ Dengan memanfaatkan model Machine Learning, khususnya Random Forest Regressor, p
 - Fatmah, F., Supriyanto, E., Budiman, D., Maichal, M., Ghozali, Z., Ismail, H., ... & Musty, B. (2024). UMKM & kewirausahaan: Panduan praktis. PT. Sonpedia Publishing Indonesia.
 - Gogolev, S., & Ozhegov, E. M. (2019, July). Comparison of machine learning algorithms in restaurant revenue prediction. In International Conference on Analysis of Images, Social Networks and Texts (pp. 27-36). Cham: Springer International Publishing.
 - Jarlöv, S., & Svensson Dahl, A. (2023). Restaurant Daily Revenue Prediction: Utilizing Synthetic Time Series Data for Improved Model Performance.
-- Permana, A. A., Darmawan, R., Saputri, F. R., Harto, B., Al-Hakim, R. R., Wijayanti, R. R., ... & Rukmana, A. Y. (2023). Artificial Intelligence Marketing. Padang: Global Eksekutif Teknologi.
 - Sanjana Rao, G. P., Aditya Shastry, K., Sathyashree, S. R., & Sahu, S. (2021). Machine learning based restaurant revenue prediction. In Evolutionary Computing and Mobile Sustainable Networks: Proceedings of ICECMSN 2020 (pp. 363-371). Springer Singapore.
-- Siddamsetty, S., Vangala, R. R., Reddy, L., & Vattipally, P. R. (2021). Restaurant revenue prediction using machine learning. International Research Journal of Engineering and Technology (IRJET) e-ISSN, 2395-0056.
-- Triansyah, F. A., Hasmirati, S. A., Soleh, S., MSI, M., Asep Deni, M. M., Khasanah, S. P., ... & Triantoro, I. T. (2024). Manajemen Strategi Menghadapi Industri 5.0. Cendikia Mulia Mandiri.
 - Wulandari, A. R., Arvi, A. A., Iqbal, M. I., Tyas, F., Kurniawan, I., & Anshori, M. I. (2023). Digital Hr: Digital transformation in increasing productivity in the work environment. Jurnal Publikasi Ilmu Manajemen, 2(4), 29-42.
