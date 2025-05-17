@@ -205,6 +205,12 @@ Berdasarkan grafik di atas, dapat disimpulkan bahwa **Average Meal Price** dan *
 - Outlier pada `Revenue` dihapus agar model tidak bias oleh nilai ekstrem.
 - Tujuannya adalah menjaga performa model tetap stabil dan akurat.
 
+### Pemisahan Fitur dan Target serta Pembagian Dataset
+- Dataset dipisahkan menjadi:
+  - **X** → Semua fitur (independen)
+  - **y** → Target prediksi, yaitu kolom `Revenue`
+- Dataset dibagi menjadi data latih dan data uji dengan rasio **80:20**
+
 ### Identifikasi Fitur Kategorikal dan Numerikal
 
 - **Fitur Kategorikal**:
@@ -227,18 +233,6 @@ Berdasarkan grafik di atas, dapat disimpulkan bahwa **Average Meal Price** dan *
   - Weekday Reservations
 
 Identifikasi ini penting karena fitur kategorikal memerlukan proses encoding agar dapat digunakan dalam model machine learning, sedangkan fitur numerikal perlu distandarisasi untuk model tertentu. Perlakuan yang sesuai pada setiap jenis fitur memastikan proses preprocessing berjalan efektif dan mencegah error pada pipeline model.
-
-### Pemisahan Fitur dan Target
-
-- Dataset dipisahkan menjadi:
-  - **X** → Semua fitur (independen)
-  - **y** → Target prediksi, yaitu kolom `Revenue`
-
-### Pembagian Dataset
-
-- Dataset dibagi menjadi data latih dan data uji dengan rasio **80:20**
-- Jumlah data latih: 6694
-- Jumlah data uji: 1674
 
 ### Encoding Fitur Kategorikal
 
