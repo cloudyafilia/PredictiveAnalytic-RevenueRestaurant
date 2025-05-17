@@ -8,9 +8,9 @@ Sejumlah penelitian terdahulu telah menunjukkan bahwa pendekatan machine learnin
 Dengan mempertimbangkan temuan-temuan tersebut, pendekatan berbasis machine learning seperti Linear Regression, Random Forest Regressor, Gradient Boosting Regressor, K-Nearest Neighbors (KNN), dan Support Vector Regression (SVR) semakin relevan untuk digunakan dalam proyek ini. Tidak hanya bertujuan untuk memprediksi revenue restoran dengan lebih akurat, tetapi juga untuk mengidentifikasi fitur-fitur yang paling berpengaruh terhadap kinerja finansial. Pendekatan ini selaras dengan prinsip data-driven decision making yang dikemukakan oleh Wulandari et al. (2023), yang menyebutkan bahwa transformasi digital dan pemanfaatan AI dalam manajemen bisnis menjadi kunci dalam meningkatkan daya saing. Oleh karena itu, proyek ini bertujuan untuk membangun, membandingkan, dan mengevaluasi beberapa model prediktif yang dapat memberikan insight strategis bagi pelaku usaha restoran dalam mengoptimalkan pendapatan mereka.
 
 ## Business Understanding
+Pendapatan merupakan indikator utama keberhasilan operasional restoran. Namun, pendapatan sebuah restoran juga dipengaruhi oleh berbagai faktor yang kompleks dan saling berinteraksi, seperti lokasi, jenis layanan, dan strategi pemasaran, sehingga diperlukan pendekatan prediktif berbasis data untuk memahami dan mengestimasi pendapatan secara lebih akurat.
 
 ### Problem Statements
-Pendapatan merupakan indikator utama keberhasilan operasional restoran. Namun, pendapatan sebuah restoran juga dipengaruhi oleh berbagai faktor yang kompleks dan saling berinteraksi, seperti lokasi, jenis layanan, dan strategi pemasaran, sehingga diperlukan pendekatan prediktif berbasis data untuk memahami dan mengestimasi pendapatan secara lebih akurat. Oleh sebab itu, dirumuskan permasalahan sebagai berikut.
 1. Bagaimana memprediksi pendapatan restoran dari fitur-fitur yang tersedia?
 2. Fitur mana yang paling berpengaruh dalam menentukan besarnya revenue?
 
