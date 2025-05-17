@@ -29,10 +29,10 @@ Berdasarkan masalah dan tujuan di atas, maka dapat diterapkan solusi sebagai ber
 - Pembuatan model Machine Learning untuk memprediksi pendapatan restoran dilakukan menggunakan 5 model yaitu:
 
     - Linear Regression  
-    - Decision Tree Regressor  
     - Random Forest Regressor  
     - Gradient Boosting Regressor  
     - K-Nearest Neighbor (KNN) Regressor
+    - Support Vector Regression (SVR)
 
 ## Data Understanding
 
@@ -88,35 +88,22 @@ Berdasarkan masalah dan tujuan di atas, maka dapat diterapkan solusi sebagai ber
 
 ##### Penjelasan Statistik Deskriptif
 
-1. **Rating:**
-   - Rata-rata rating restoran adalah **4.01**, dengan nilai tengah (median) **4.0**.
-   - Rentang rating berkisar antara **3.0 hingga 5.0**, dengan standar deviasi **0.58**.
-   - Mayoritas restoran memiliki rating di kisaran **3.5 hingga 4.5**.
+| **Fitur**                  | **Penjelasan** |
+|----------------------------|----------------|
+| **Rating**                 | Rata-rata rating restoran adalah 4.0 dari skala 5, dengan nilai tertinggi mencapai 5.0. |
+| **Seating Capacity**       | Kapasitas tempat duduk berkisar antara 29 hingga 90 kursi, dengan rata-rata sekitar 60 kursi. |
+| **Average Meal Price**     | Harga rata-rata makanan berkisar dari 25 hingga 76 satuan mata uang, dengan median sekitar 45.5. |
+| **Marketing Budget**       | Rata-rata anggaran pemasaran adalah sekitar 3.218, dengan variasi tinggi dan maksimum hampir 10.000. |
+| **Social Media Followers** | Jumlah pengikut media sosial sangat bervariasi, dengan rata-rata 36.169 dan maksimum lebih dari 100.000. |
+| **Chef Experience Years**  | Pengalaman koki rata-rata adalah sekitar 19 tahun, dengan kisaran antara 5 hingga 30 tahun. |
+| **Number of Reviews**      | Jumlah ulasan per restoran sangat bervariasi, dengan median sekitar 529 dan maksimum hingga 999 ulasan. |
+| **Avg Review Length**      | Panjang rata-rata ulasan adalah 72 kata, dengan nilai maksimum 199 kata. |
+| **Ambience Score**         | Nilai ambience berkisar dari 1 hingga 10, dengan rata-rata 5.5, menunjukkan sebaran merata. |
+| **Service Quality Score**  | Skor kualitas pelayanan rata-rata adalah 5.5 dari skala 10, dengan banyak nilai rendah. |
+| **Weekend Reservations**   | Reservasi akhir pekan rata-rata sekitar 29 orang, dengan maksimum mencapai 80. |
+| **Weekday Reservations**   | Reservasi hari kerja lebih rendah, rata-rata sekitar 29 dengan maksimum 88. |
+| **Revenue**                | Pendapatan restoran bervariasi besar, dengan rata-rata sekitar 650.000 dan maksimum lebih dari 1,5 juta. |
 
-2. **Seating Capacity:**
-   - Rata-rata kapasitas tempat duduk sebesar **60 kursi**, dengan median **60**.
-   - Kapasitas berkisar antara **30 hingga 90 kursi**, dengan standar deviasi **17.40**.
-   - Sebagian besar restoran memiliki kapasitas antara **45 hingga 75 kursi**.
-
-3. **Average Meal Price:**
-   - Harga rata-rata per porsi makanan adalah **47.90**, dengan median **45.53**.
-   - Harga berkisar dari **25 hingga 76**, dengan sebaran **14.34**.
-   - Sebagian besar restoran memiliki harga rata-rata antara **35.49 hingga 60.30**.
-
-4. **Marketing Budget:**
-   - Anggaran pemasaran rata-rata sebesar **3218.25**, dengan median **2846.50**.
-   - Rentang anggaran dari **604 hingga 9978**, dengan standar deviasi **1824.90**.
-   - Sebagian besar restoran memiliki budget di kisaran **1889 hingga 4008.50**.
-
-5. **Social Media Followers:**
-   - Jumlah pengikut media sosial rata-rata **36190.62**, dengan median **32518.50**.
-   - Rentang followers dari **5277 hingga 103770**, dengan standar deviasi **18630.15**.
-   - Mayoritas restoran memiliki followers di kisaran **22592.50 hingga 44566.25**.
-
-6. **Revenue (Target):**
-   - Pendapatan rata-rata restoran adalah **656070.56**, dengan median **604242.09**.
-   - Revenue berkisar dari **184708.52 hingga 1531868.0**, dengan standar deviasi **267413.74**.
-   - Sebagian besar restoran memiliki pendapatan di antara **454651.40 hingga 813094.23**.
 
 #### EDA - Tabel Deskripsi Fitur Kategorikal
 
@@ -131,52 +118,56 @@ Berdasarkan masalah dan tujuan di atas, maka dapat diterapkan solusi sebagai ber
 
 ##### Penjelasan Statistik Deskriptif (Data Kategorikal)
 
-1. **Name (Nama Restoran):**
-   - Terdapat **8.368 entri unik** pada fitur Name, dengan total **8.368 data**.
-   - Nama restoran seperti **"Restaurant 8351"** muncul hanya sekali.
-   - Hal ini menunjukkan bahwa setiap restoran memiliki nama yang berbeda (unik).
+| **Fitur**                | **Penjelasan** |
+|--------------------------|----------------|
+| **Name**                 | Terdapat 8.368 nama restoran unik, dengan masing-masing hanya muncul satu kali. |
+| **Location**             | Terdapat 3 lokasi berbeda, dengan lokasi paling umum adalah *Downtown* (2.821 restoran). |
+| **Cuisine**              | Terdapat 6 jenis masakan, dengan *French* sebagai yang paling umum (1.433 restoran). |
+| **Parking Availability** | Mayoritas restoran memiliki parkir (*Yes*), sebanyak 4.189 dari total 8.368 restoran. |
 
-2. **Location (Lokasi Restoran):**
-   - Lokasi restoran terbagi menjadi **3 kategori berbeda**.
-   - Kategori lokasi yang paling sering muncul adalah **Downtown**, sebanyak **2.821 kali**.
-   - Ini menunjukkan bahwa sebagian besar restoran dalam dataset berada di pusat kota.
-
-3. **Cuisine (Jenis Layanan / Masakan):**
-   - Terdapat **6 jenis layanan/cuisine** dalam dataset ini.
-   - Jenis masakan yang paling banyak adalah **French**, muncul sebanyak **1.433 kali**.
-   - Ini menunjukkan bahwa restoran dengan layanan masakan French cukup dominan.
-
-4. **Parking Availability (Ketersediaan Parkir):**
-   - Fitur ini memiliki **2 kategori**: Yes dan No.
-   - Sebanyak **4.189 restoran** tercatat memiliki fasilitas parkir (Yes).
-   - Ini menunjukkan bahwa lebih dari separuh restoran dalam data menyediakan fasilitas parkir.
 
 #### EDA - Visualisasi
 
-###### Visualisasi Distribusi Revenue Restaurant
 ![image](https://github.com/user-attachments/assets/c475a711-e5cf-40fb-a7c2-ca4ad3fa5f91)
 
-###### Visualisasi Distribusi Cuisine Type
-![image](https://github.com/user-attachments/assets/55e46994-95af-421a-9ade-1b546f79062a)
+Distribusi Revenue divisualisasikan menggunakan histogram yang menunjukkan sebagian besar restoran dalam dataset memiliki pendapatan (revenue) berkisar antara 400.000 hingga 600.000. Grafik memperlihatkan distribusi data yang condong ke kanan (right-skewed), di mana sebagian kecil restoran memiliki revenue di atas 1 juta, namun mayoritas berada di kisaran menengah. Hal ini menunjukkan bahwa pendapatan tinggi hanya dimiliki oleh segelintir restoran, sementara sebagian besar lainnya berada pada tingkat pendapatan menengah.
 
 #### EDA - Bivariate Analisis
 
-###### Visualisasi Revenue Restaurant berdasarkan Cuisine Type
-![image](https://github.com/user-attachments/assets/37e127e5-3c5d-477d-9083-b4b5732c0ac8)
+![image](https://github.com/user-attachments/assets/28b4998a-8865-4751-a2cb-443dd1585066)
 
-###### Visualisasi Average Meal Price berdasarkan Location
-![image](https://github.com/user-attachments/assets/4d2e3c1b-2e07-4613-8f46-f4bc33e7c3e8)
+Grafik menunjukkan bahwa terdapat hubungan positif antara jumlah pengikut media sosial dengan rata-rata pendapatan (Revenue) restoran. Restoran dengan pengikut sedikit (0–20k) memiliki pendapatan terendah, sementara restoran dengan pengikut sangat banyak (>60k) mencatatkan pendapatan rata-rata tertinggi, mendekati 900.000. Tren ini mengindikasikan bahwa semakin tinggi eksposur restoran di media sosial, semakin besar peluang untuk menarik pelanggan dan meningkatkan pendapatan. Oleh karena itu, strategi pemasaran digital dan peningkatan interaksi di media sosial tampaknya menjadi faktor penting dalam mendukung performa keuangan restoran.
+
+
+![image](https://github.com/user-attachments/assets/71c55c4a-f594-43a7-a1bb-e7c428cf6760)
+
+Grafik menunjukkan bahwa terdapat hubungan positif yang jelas antara kapasitas tempat duduk restoran dengan rata-rata pendapatan (Revenue). Restoran dengan kapasitas kecil (29–45 kursi) memiliki pendapatan terendah, sementara restoran dengan kapasitas sangat besar (75–90 kursi) mencatatkan pendapatan tertinggi, mendekati Rp900.000. Tren yang konsisten ini mengindikasikan bahwa semakin besar daya tampung pelanggan, semakin besar pula potensi pemasukan restoran. Hal ini logis karena lebih banyak kursi memungkinkan lebih banyak transaksi dalam satu waktu, sehingga kapasitas tempat duduk merupakan faktor operasional kunci dalam memaksimalkan revenue.
+
+
+![image](https://github.com/user-attachments/assets/b74d7e20-40db-4485-b461-c0783e7050b8)
+
+Grafik menunjukkan bahwa semakin tinggi rata-rata harga makanan (Average Meal Price), semakin besar pula rata-rata pendapatan (Revenue) yang diperoleh restoran. Restoran dengan kategori harga murah (25–35\$) memiliki pendapatan terendah, sementara kategori sangat mahal (>59\$) mencatatkan pendapatan tertinggi, mendekati Rp900.000. Tren ini mengindikasikan bahwa strategi penetapan harga yang lebih tinggi dapat meningkatkan revenue, kemungkinan karena margin keuntungan yang lebih besar per transaksi atau karena harga yang lebih tinggi sering diasosiasikan dengan nilai tambah seperti kualitas, lokasi premium, atau segmentasi pelanggan menengah ke atas. Namun, efektivitas strategi ini tetap bergantung pada daya beli dan ekspektasi target pasar.
+
+
+![image](https://github.com/user-attachments/assets/4dee1c46-9a18-438a-8e38-968cf833f953)
+
+Scatterplot antara Marketing Budget dan Revenue menunjukkan adanya kecenderungan hubungan positif, di mana semakin besar alokasi anggaran pemasaran, pendapatan restoran cenderung meningkat. Namun demikian, sebaran data yang cukup lebar mengindikasikan bahwa hubungan ini tidak sepenuhnya linier dan dipengaruhi oleh faktor-faktor lain di luar budget semata. Selain itu, masih ditemukan banyak restoran dengan revenue tinggi meskipun memiliki marketing budget relatif rendah, yang mengisyaratkan bahwa variabel lain seperti jenis masakan, lokasi, atau kualitas layanan juga memainkan peran penting.
+
+
+![image](https://github.com/user-attachments/assets/7c3adb31-e027-48ff-8c85-f524631f6ad9)
+
+Grafik menunjukkan bahwa peningkatan jumlah reservasi akhir pekan (Weekend Reservations) berbanding lurus dengan peningkatan rata-rata pendapatan restoran. Restoran dengan sedikit reservasi memiliki pendapatan terendah, sementara restoran yang sangat sibuk pada akhir pekan (Very Busy) mencatatkan rata-rata pendapatan tertinggi, melebihi Rp850.000. Tren ini mencerminkan bahwa akhir pekan merupakan momen penting dalam mendongkrak penjualan, kemungkinan karena volume pengunjung yang lebih tinggi. Oleh karena itu, mengoptimalkan strategi reservasi dan promosi khusus di akhir pekan dapat menjadi kunci dalam meningkatkan performa pendapatan restoran secara keseluruhan.
 
 #### EDA - Multivariate Analisis
 
-###### Visualisasi Matriks Korelasi antar Fitur
 ![image](https://github.com/user-attachments/assets/714e90a0-e94d-4c66-9462-ba6bc11b5682)
 
-###### Visualisasi Pair Plot antar Fitur
-![image](https://github.com/user-attachments/assets/6021ebd9-dad1-4257-86fb-7152d35c9f23)
+Heatmap korelasi menunjukkan bahwa Seating Capacity dan Average Meal Price memiliki korelasi positif tertinggi dengan revenue (sekitar 0.68-0.69), diikuti oleh Marketing Budget dan Social Media Followers. Fitur-fitur lain seperti Service Quality Score dan Ambience Score menunjukkan korelasi lemah terhadap revenue. Korelasi tinggi antara Marketing Budget dan Social Media Followers (0.99) mengindikasikan potensi multikolinearitas yang perlu diantisipasi saat pemodelan.
 
-###### Visualisasi Hubungan Seating Capacity dan Revenue berdasarkan Cuisine Type
-![image](https://github.com/user-attachments/assets/3db3233b-c2fb-402c-b948-9de99a7a5051)
+![image](https://github.com/user-attachments/assets/07631749-d16c-4f5d-8f73-737eba5b64c0)
+
+Berdasarkan grafik di atas, dapat disimpulkan bahwa **Average Meal Price** dan **Seating Capacity** memiliki korelasi paling tinggi terhadap pendapatan (Revenue), masing-masing dengan nilai korelasi mendekati 0.7, yang menunjukkan hubungan linier positif yang kuat. Artinya, semakin tinggi harga rata-rata makanan dan kapasitas tempat duduk, cenderung semakin tinggi pula pendapatan restoran. Fitur lain seperti **Marketing Budget**, **Social Media Followers**, dan **Weekend Reservations** juga berkontribusi secara positif, meskipun dengan kekuatan korelasi yang lebih lemah (sekitar 0.3–0.4). Temuan ini menunjukkan bahwa faktor operasional dan pemasaran sama-sama memengaruhi performa finansial restoran, namun faktor harga dan kapasitas memiliki dampak paling dominan.
+
 
 ## Data Preparation
 
@@ -250,12 +241,12 @@ Berdasarkan masalah dan tujuan di atas, maka dapat diterapkan solusi sebagai ber
 ### Standarisasi Fitur Numerikal
 
 - Fitur numerikal dinormalisasi menggunakan **StandardScaler**
-- Penting untuk model yang sensitif terhadap skala seperti **KNN**
+- Penting untuk model yang sensitif terhadap skala seperti **KNN** dan **SVR**
 - Hasilnya: semua fitur numerik punya mean = 0 dan std = 1
 
 ## Modeling
 
-Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapkan untuk memodelkan hubungan antara fitur-fitur restoran dan total pendapatan (Revenue). Linear Regression digunakan sebagai baseline model untuk mengidentifikasi hubungan linier dasar. Decision Tree Regressor diaplikasikan untuk menangkap pola non-linier melalui pemodelan berbasis aturan keputusan. Random Forest Regressor digunakan sebagai ensemble berbasis pohon yang memadukan prediksi banyak pohon untuk meningkatkan akurasi dan mengurangi overfitting. Gradient Boosting Regressor memperbaiki kesalahan prediksi secara bertahap sehingga seringkali menghasilkan performa terbaik. Terakhir, K-Nearest Neighbors (KNN) diterapkan untuk memprediksi revenue berdasarkan kemiripan fitur antar restoran. Setiap model memiliki karakteristik, kelebihan, dan kekurangannya masing-masing. Oleh karena itu, digunakan beberapa model untuk membandingkan efektivitas dan akurasi prediksi revenue. Tahapan ini membahas mengenai model machine learning yang digunakan untuk menyelesaikan permasalahan prediksi revenue restoran.
+Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapkan untuk memodelkan hubungan antara fitur-fitur restoran dan total pendapatan (Revenue). Linear Regression digunakan sebagai baseline model untuk mengidentifikasi hubungan linier dasar. Support Vector Regression (SVR) diaplikasikan untuk menangkap pola non-linier dengan pendekatan margin dan kernel, sehingga mampu memodelkan hubungan kompleks antar variabel. Random Forest Regressor digunakan sebagai ensemble berbasis pohon yang memadukan prediksi banyak pohon untuk meningkatkan akurasi dan mengurangi overfitting. Gradient Boosting Regressor memperbaiki kesalahan prediksi secara bertahap sehingga seringkali menghasilkan performa terbaik. Terakhir, K-Nearest Neighbors (KNN) diterapkan untuk memprediksi revenue berdasarkan kemiripan fitur antar restoran. Setiap model memiliki karakteristik, kelebihan, dan kekurangannya masing-masing. Oleh karena itu, digunakan beberapa model untuk membandingkan efektivitas dan akurasi prediksi revenue. Tahapan ini membahas mengenai model machine learning yang digunakan untuk menyelesaikan permasalahan prediksi revenue restoran.
 
 ### 1. Linear Regression
 
@@ -271,20 +262,7 @@ Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapka
   - Sensitif terhadap outlier.
   - Tidak mampu menangkap interaksi kompleks antar fitur.
 
-### 2. Decision Tree Regressor
-
-**Decision Tree Regressor** memprediksi revenue dengan membangun serangkaian aturan keputusan berbasis nilai fitur. Model ini mampu menangkap pola non-linear dan interaksi antar fitur tanpa memerlukan transformasi data.
-
-- **Kelebihan**:
-  - Mampu menangkap hubungan non-linear dan interaksi fitur.
-  - Tidak memerlukan penskalaan fitur.
-  - Interpretasi mudah melalui visualisasi pohon keputusan.
-
-- **Kekurangan**:
-  - Rentan terhadap overfitting (terlalu menyesuaikan dengan data latih).
-  - Tidak stabil terhadap perubahan kecil pada data latih.
-
-### 3. Random Forest Regressor
+### 2. Random Forest Regressor
 
 **Random Forest Regressor** adalah model ensemble yang membangun banyak decision tree dan menggabungkan hasilnya untuk memprediksi revenue. Teknik ini membantu mengurangi overfitting dan meningkatkan generalisasi.
 
@@ -297,7 +275,7 @@ Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapka
   - Lebih lambat secara komputasi dibanding single tree.
   - Interpretasi hasil model lebih sulit dibanding pohon tunggal.
 
-### 4. Gradient Boosting Regressor
+### 3. Gradient Boosting Regressor
 
 **Gradient Boosting Regressor** membangun model secara bertahap, di mana setiap pohon berikutnya mencoba memperbaiki kesalahan prediksi dari pohon sebelumnya. Model ini sering memberikan hasil terbaik dalam berbagai kompetisi prediksi.
 
@@ -311,7 +289,7 @@ Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapka
   - Waktu pelatihan lebih lama dibanding Random Forest.
   - Interpretasi model lebih sulit.
 
-### 5. K-Nearest Neighbors (KNN)
+### 4. K-Nearest Neighbors (KNN)
 
 **K-Nearest Neighbors (KNN)** memprediksi revenue berdasarkan kedekatan fitur dengan data restoran lain. Model ini menghitung jarak antar data untuk menentukan prediksi.
 
@@ -324,6 +302,20 @@ Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapka
   - Sensitif terhadap skala fitur (memerlukan standarisasi).
   - Pemilihan parameter `k` sangat mempengaruhi hasil.
   - Kurang efisien pada dataset besar karena menghitung jarak ke semua data latih.
+
+### 5. Support Vector Regression (SVR)
+
+**Support Vector Regression (SVR)** memprediksi revenue dengan mencari fungsi terbaik yang meminimalkan error dalam batas toleransi tertentu (epsilon), menggunakan kernel untuk menangkap hubungan non-linear antar fitur. Model ini cocok untuk data dengan pola kompleks dan berskala kecil hingga menengah.
+
+- **Kelebihan**:
+  - Mampu menangkap pola non-linear melalui penggunaan kernel.
+  - Cukup robust terhadap outlier ringan.
+  - Cocok untuk data berdimensi tinggi.
+
+- **Kekurangan**:
+  - Memerlukan penskalaan fitur dan target.
+  - Sensitif terhadap pemilihan parameter (seperti C dan epsilon).
+  - Kurang efisien untuk dataset besar dan interpretasi model sulit.
 
 ## Evaluation
 
@@ -418,46 +410,36 @@ Bagian ini membahas tentang fitur-fitur apa saja yang paling berpengaruh terhada
 
 ![image](https://github.com/user-attachments/assets/c64879e8-ff51-45c3-bf29-3a29faebf14f)
 
-![image](https://github.com/user-attachments/assets/b235e4fb-b791-4fb8-991b-c1ace958a6ed)
-
 ![image](https://github.com/user-attachments/assets/0faa1b95-c085-43c6-a905-e29518e1cd85)
 
 ![image](https://github.com/user-attachments/assets/5faee70e-fb88-41a0-8f3d-433623f6230c)
 
-Berdasarkan hasil analisis feature importance dari empat model regresi (Linear Regression, Decision Tree, Random Forest, dan Gradient Boosting), ditemukan bahwa fitur-fitur berikut secara konsisten memiliki pengaruh paling signifikan terhadap prediksi revenue restoran:
+Berdasarkan hasil analisis feature importance dari tiga model regresi—Linear Regression, Random Forest, dan Gradient Boosting—ditemukan bahwa fitur-fitur berikut secara konsisten memiliki pengaruh paling signifikan terhadap prediksi revenue restoran:
 
-- **Marketing Budget**  
-  Faktor utama yang mempengaruhi pendapatan restoran. Semakin besar anggaran pemasaran, semakin besar peluang meningkatkan revenue melalui promosi dan jangkauan pelanggan.
+- **Average Meal Price** : Merupakan fitur dengan kontribusi tertinggi di semua model. Semakin tinggi harga rata-rata makanan, semakin besar potensi revenue, terutama jika dikombinasikan dengan strategi nilai tambah seperti kualitas dan positioning pasar.
 
-- **Average Meal Price**  
-  Harga rata-rata makanan menunjukkan kontribusi signifikan terhadap total revenue. Harga yang optimal akan mempengaruhi margin keuntungan dan jumlah transaksi.
+- **Seating Capacity** : Berperan besar dalam menentukan skala operasional restoran. Model Random Forest dan Gradient Boosting sama-sama menunjukkan bahwa kapasitas tempat duduk adalah salah satu penentu utama revenue, karena memengaruhi volume pelanggan yang bisa dilayani.
 
-- **Seating Capacity**  
-  Kapasitas tempat duduk menentukan potensi maksimum pelanggan yang dapat dilayani, sehingga berperan besar dalam skala pendapatan.
+- **Cuisine Type (khususnya French dan Japanese)** : Dalam Linear Regression, jenis masakan tertentu seperti French dan Japanese memiliki koefisien besar, menunjukkan bahwa preferensi menu juga berkontribusi terhadap pendapatan.
 
 Selain ketiga fitur utama tersebut, beberapa fitur lain juga memberikan kontribusi meskipun tidak sebesar faktor di atas, seperti:
 
-- **Social Media Followers**  
-  Meningkatkan visibilitas dan brand awareness restoran, yang secara tidak langsung mendorong peningkatan revenue.
+- **Marketing Budget** : Meskipun memiliki pengaruh rendah di Random Forest dan Gradient Boosting, model Linear Regression menunjukkan bahwa alokasi anggaran promosi tetap relevan untuk mendorong pendapatan, terutama dalam konteks visibilitas awal.
 
-- **Service Quality Score** dan **Ambience Score**  
-  Meskipun kontribusinya lebih kecil, kualitas layanan dan suasana restoran tetap menjadi faktor yang mempengaruhi pengalaman pelanggan dan loyalitas.
+- **Social Media Followers** : Memberikan kontribusi kecil namun tetap berperan dalam memperluas jangkauan dan menarik pelanggan baru. 
 
+- **Service Quality Score** dan **Ambience Score** : Meskipun nilainya rendah, kedua fitur ini tetap relevan dalam menciptakan pengalaman pelanggan yang berkesan dan mendukung loyalitas jangka panjang.
 
 ## Conclusion
 
 Berdasarkan hasil eksperimen dan evaluasi terhadap berbagai model regresi yang diterapkan, proyek ini berhasil menjawab rumusan masalah yang telah ditetapkan, yaitu memprediksi revenue restoran berdasarkan fitur-fitur karakteristik restoran serta memahami hubungan antar fitur terhadap pendapatan.
 
-1. Proyek ini telah mengembangkan beberapa model prediksi revenue dengan pendekatan Machine Learning, yaitu Linear Regression, Decision Tree Regressor, Random Forest Regressor, Gradient Boosting Regressor, dan K-Nearest Neighbors (KNN). Evaluasi performa model menggunakan metrik MSE, RMSE, MAE, dan R² menunjukkan bahwa **Random Forest Regressor** menjadi model terbaik dengan akurasi tertinggi dan kesalahan prediksi terendah. Model ini dipilih karena mampu menggabungkan prediksi dari banyak decision tree secara ensemble, sehingga menghasilkan model yang kuat, akurat, dan tahan terhadap overfitting.
+1. Proyek ini telah mengembangkan beberapa model prediksi revenue dengan pendekatan Machine Learning, yaitu Linear Regression, Random Forest Regressor, Gradient Boosting Regressor, K-Nearest Neighbors (KNN) Regression, dan Support Vector Regression (SVR). Evaluasi performa model menggunakan metrik MSE, RMSE, MAE, dan R² menunjukkan bahwa **Random Forest Regressor** menjadi model terbaik dengan akurasi tertinggi dan kesalahan prediksi terendah. Model ini dipilih karena mampu menggabungkan prediksi dari banyak decision tree secara ensemble, sehingga menghasilkan model yang kuat, akurat, dan tahan terhadap overfitting.
 
-2. Hasil analisis feature importance dari berbagai model mengungkapkan bahwa faktor-faktor berikut memiliki pengaruh terbesar terhadap prediksi revenue restoran:
-- **Marketing Budget**: Faktor utama yang berkontribusi signifikan terhadap pendapatan melalui aktivitas promosi dan pemasaran.
-- **Average Meal Price**: Harga rata-rata menu yang mempengaruhi margin keuntungan dan daya beli pelanggan.
-- **Seating Capacity**: Menentukan potensi jumlah pelanggan yang dapat dilayani secara fisik.
-Fitur tambahan seperti **Social Media Followers**, **Service Quality Score**, dan **Ambience Score** juga menunjukkan pengaruh meskipun tidak sebesar tiga faktor utama di atas.
+2. Hasil analisis feature importance dari Linear Regression, Random Forest Regressor, dan Gradient Boosting menunjukkan bahwa **Average Meal Price** dan **Seating Capacity** merupakan faktor paling dominan dalam memprediksi revenue restoran. Jenis masakan tertentu seperti **French** dan **Japanese** juga berkontribusi signifikan dalam model linier. Sementara itu, fitur seperti **Marketing Budget**, **Social Media Followers**, serta **Service Quality** dan **Ambience Score** memiliki pengaruh lebih kecil, namun tetap relevan dalam membentuk pengalaman pelanggan dan meningkatkan pendapatan secara tidak langsung.
 
 ### Insight
-Dengan memanfaatkan model Machine Learning, khususnya Random Forest, prediksi revenue restoran dapat dilakukan secara akurat berdasarkan data karakteristik restoran. Selain itu, pemahaman mengenai fitur-fitur yang paling berpengaruh dapat menjadi acuan strategis bagi pelaku bisnis restoran dalam mengoptimalkan pendapatan melalui pengelolaan anggaran pemasaran, penetapan harga menu, dan manajemen kapasitas layanan. Model yang telah dibangun menunjukkan bahwa penerapan kecerdasan buatan dalam analisis bisnis restoran memberikan manfaat nyata dalam mendukung pengambilan keputusan berbasis data.
+Dengan memanfaatkan model Machine Learning, khususnya Random Forest Regressor, prediksi revenue restoran dapat dilakukan secara akurat berdasarkan data karakteristik restoran. Selain itu, pemahaman mengenai fitur-fitur yang paling berpengaruh dapat menjadi acuan strategis bagi pelaku bisnis restoran dalam mengoptimalkan pendapatan melalui pengelolaan anggaran pemasaran, penetapan harga menu, dan manajemen kapasitas layanan. Model yang telah dibangun menunjukkan bahwa penerapan kecerdasan buatan dalam analisis bisnis restoran memberikan manfaat nyata dalam mendukung pengambilan keputusan berbasis data.
 
 
 ## Referensi
