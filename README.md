@@ -142,13 +142,13 @@ Beberapa fitur numerik, terutama `Revenue`, mengandung nilai outlier berdasarkan
 ### Exploratory Data Analysis (EDA)
 Analisis eksploratif dilakukan untuk memahami distribusi data dan hubungan antar fitur. Terdiri dari:
 
-#### Univariate Analisis
+#### 1. Univariate Analisis
 
 ![image](https://github.com/user-attachments/assets/c475a711-e5cf-40fb-a7c2-ca4ad3fa5f91)
 
 Distribusi Revenue divisualisasikan menggunakan histogram yang menunjukkan sebagian besar restoran dalam dataset memiliki pendapatan (revenue) berkisar antara $400.000 hingga $600.000. Grafik memperlihatkan distribusi data yang condong ke kanan (right-skewed), di mana sebagian kecil restoran memiliki revenue di atas $1 juta, namun mayoritas berada di kisaran menengah. Hal ini menunjukkan bahwa pendapatan tinggi hanya dimiliki oleh segelintir restoran, sementara sebagian besar lainnya berada pada tingkat pendapatan menengah.
 
-#### Bivariate Analisis
+#### 2. Bivariate Analisis
 
 ![image](https://github.com/user-attachments/assets/28b4998a-8865-4751-a2cb-443dd1585066)
 
@@ -174,7 +174,7 @@ Scatterplot antara Marketing Budget dan Revenue menunjukkan adanya kecenderungan
 
 Grafik menunjukkan bahwa peningkatan jumlah reservasi akhir pekan (Weekend Reservations) berbanding lurus dengan peningkatan rata-rata pendapatan restoran. Restoran dengan sedikit reservasi memiliki pendapatan terendah, sementara restoran yang sangat sibuk pada akhir pekan mencatatkan rata-rata pendapatan tertinggi, melebihi $850.000. Tren ini mencerminkan bahwa akhir pekan merupakan momen penting dalam mendongkrak penjualan, kemungkinan karena volume pengunjung yang lebih tinggi. Oleh karena itu, mengoptimalkan strategi reservasi dan promosi khusus di akhir pekan dapat menjadi kunci dalam meningkatkan performa pendapatan restoran secara keseluruhan.
 
-#### Multivariate Analisis
+#### 3. Multivariate Analisis
 
 ![image](https://github.com/user-attachments/assets/714e90a0-e94d-4c66-9462-ba6bc11b5682)
 
