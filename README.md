@@ -101,7 +101,7 @@ Berdasarkan masalah dan tujuan di atas, maka dapat diterapkan solusi sebagai ber
 |----------------------------|----------------|
 | **Rating**                 | Rata-rata rating restoran adalah 4.0 dari skala 5, dengan nilai tertinggi mencapai 5.0. |
 | **Seating Capacity**       | Kapasitas tempat duduk berkisar antara 29 hingga 90 kursi, dengan rata-rata sekitar 60 kursi. |
-| **Average Meal Price**     | Harga rata-rata makanan berkisar dari $25 hingga $76, dengan median sekitar 45.5$. |
+| **Average Meal Price**     | Harga rata-rata makanan berkisar dari $25 hingga $76, dengan median sekitar $45.5. |
 | **Marketing Budget**       | Rata-rata anggaran pemasaran adalah sekitar $3.218, dengan variasi tinggi dan maksimum hampir $10.000. |
 | **Social Media Followers** | Jumlah pengikut media sosial sangat bervariasi, dengan rata-rata 36.169 dan maksimum lebih dari 100.000. |
 | **Chef Experience Years**  | Pengalaman koki rata-rata adalah sekitar 19 tahun, dengan kisaran antara 5 hingga 30 tahun. |
