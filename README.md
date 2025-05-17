@@ -49,9 +49,7 @@ Berdasarkan masalah dan tujuan di atas, maka dapat diterapkan solusi sebagai ber
 
 - Dataset ini berisi informasi tentang berbagai atribut restoran yang dapat mempengaruhi pendapatan (Revenue). Setiap baris mewakili satu restoran unik dengan fitur-fitur yang menggambarkan lokasi, jenis layanan, aspek operasional, hingga interaksi dengan pelanggan.
 
-### Exploratory Data Analysis (EDA)
-
-#### Deskripsi Fitur
+### 1. Deskripsi Fitur
 
 - Dataset terdiri dari 8368 baris dengan 17 fitur yang berisi informasi mengenai karakteristik restoran dan total pendapatan yang dihasilkan.
 
@@ -75,9 +73,7 @@ Berdasarkan masalah dan tujuan di atas, maka dapat diterapkan solusi sebagai ber
   - **Weekday Reservations**: Jumlah reservasi yang dilakukan saat hari kerja.
   - **Revenue**: Total pendapatan yang dihasilkan oleh restoran (target prediksi).
 
-#### EDA - Univariate Analisis
-
-##### Deskripsi Statistik
+### 2. Deskripsi Statistik
 
 | Fitur                   | Count | Mean        | Std         | Min        | 25%        | 50%        | 75%        | Max          |
 |-------------------------|--------|-------------|-------------|------------|------------|------------|------------|--------------|
@@ -95,7 +91,7 @@ Berdasarkan masalah dan tujuan di atas, maka dapat diterapkan solusi sebagai ber
 | Weekday Reservations    | 8368   | 29.24       | 20.04       | 0.0        | 13.0       | 26.0       | 43.0       | 88.0         |
 | Revenue                 | 8368   | 656070.56   | 267413.74   | 184708.52  | 454651.40  | 604242.09  | 813094.23  | 1531868.0    |
 
-##### Penjelasan Statistik Deskriptif
+#### Penjelasan Statistik Deskriptif
 
 | **Fitur**                  | **Penjelasan** |
 |----------------------------|----------------|
@@ -113,9 +109,7 @@ Berdasarkan masalah dan tujuan di atas, maka dapat diterapkan solusi sebagai ber
 | **Weekday Reservations**   | Reservasi hari kerja lebih rendah, rata-rata sekitar 29 dengan maksimum 88. |
 | **Revenue**                | Pendapatan restoran bervariasi besar, dengan rata-rata sekitar $650.000 dan maksimum lebih dari $1,5 juta. |
 
-#### EDA - Deskripsi Fitur Kategorikal
-
-##### Statistik Deskriptif (Data Kategorikal)
+### 3. Deskripsi Fitur Kategorikal
 
 | Fitur                  | Count | Unique | Kategori Terbanyak (Top) | Frekuensi Terbanyak (Freq) |
 |------------------------|--------|--------|--------------------------|---------------------------|
@@ -124,7 +118,7 @@ Berdasarkan masalah dan tujuan di atas, maka dapat diterapkan solusi sebagai ber
 | Cuisine                | 8368   | 6      | French                    | 1433                      |
 | Parking Availability   | 8368   | 2      | Yes                       | 4189                      |
 
-##### Penjelasan Statistik Deskriptif (Data Kategorikal)
+#### Penjelasan Statistik Deskriptif (Data Kategorikal)
 
 | **Fitur**                | **Penjelasan** |
 |--------------------------|----------------|
@@ -133,13 +127,28 @@ Berdasarkan masalah dan tujuan di atas, maka dapat diterapkan solusi sebagai ber
 | **Cuisine**              | Terdapat 6 jenis masakan, dengan *French* sebagai yang paling umum (1.433 restoran). |
 | **Parking Availability** | Mayoritas restoran memiliki parkir (*Yes*), sebanyak 4.189 dari total 8.368 restoran. |
 
-#### EDA - Visualisasi
+### 4. Pemeriksaan Missing Value
+
+Dataset ini telah dicek terhadap nilai kosong (missing values), dan **tidak ditemukan nilai yang hilang** di seluruh kolom. Ini menunjukkan kualitas data yang baik dari sisi kelengkapan.
+
+### 5. Pemeriksaan Duplikasi Data
+
+Pemeriksaan terhadap baris yang duplikat menunjukkan bahwa **tidak ada data duplikat** pada dataset. Setiap restoran memiliki ID unik yang dapat dikenali melalui kolom `Name`.
+
+### 6. Pemeriksaan Outlier
+
+Beberapa fitur numerik, terutama `Revenue`, mengandung nilai outlier berdasarkan analisis IQR (Interquartile Range). Nilai-nilai ekstrem ini akan ditangani pada tahap data preparation untuk menghindari bias model prediksi.
+
+### Exploratory Data Analysis (EDA)
+Analisis eksploratif dilakukan untuk memahami distribusi data dan hubungan antar fitur. Terdiri dari:
+
+#### Univariate Analisis
 
 ![image](https://github.com/user-attachments/assets/c475a711-e5cf-40fb-a7c2-ca4ad3fa5f91)
 
 Distribusi Revenue divisualisasikan menggunakan histogram yang menunjukkan sebagian besar restoran dalam dataset memiliki pendapatan (revenue) berkisar antara $400.000 hingga $600.000. Grafik memperlihatkan distribusi data yang condong ke kanan (right-skewed), di mana sebagian kecil restoran memiliki revenue di atas $1 juta, namun mayoritas berada di kisaran menengah. Hal ini menunjukkan bahwa pendapatan tinggi hanya dimiliki oleh segelintir restoran, sementara sebagian besar lainnya berada pada tingkat pendapatan menengah.
 
-#### EDA - Bivariate Analisis
+#### Bivariate Analisis
 
 ![image](https://github.com/user-attachments/assets/28b4998a-8865-4751-a2cb-443dd1585066)
 
@@ -165,7 +174,7 @@ Scatterplot antara Marketing Budget dan Revenue menunjukkan adanya kecenderungan
 
 Grafik menunjukkan bahwa peningkatan jumlah reservasi akhir pekan (Weekend Reservations) berbanding lurus dengan peningkatan rata-rata pendapatan restoran. Restoran dengan sedikit reservasi memiliki pendapatan terendah, sementara restoran yang sangat sibuk pada akhir pekan mencatatkan rata-rata pendapatan tertinggi, melebihi $850.000. Tren ini mencerminkan bahwa akhir pekan merupakan momen penting dalam mendongkrak penjualan, kemungkinan karena volume pengunjung yang lebih tinggi. Oleh karena itu, mengoptimalkan strategi reservasi dan promosi khusus di akhir pekan dapat menjadi kunci dalam meningkatkan performa pendapatan restoran secara keseluruhan.
 
-#### EDA - Multivariate Analisis
+#### Multivariate Analisis
 
 ![image](https://github.com/user-attachments/assets/714e90a0-e94d-4c66-9462-ba6bc11b5682)
 
@@ -177,12 +186,6 @@ Berdasarkan grafik di atas, dapat disimpulkan bahwa **Average Meal Price** dan *
 
 
 ## Data Preparation
-
-### Menangani Duplikasi Data dalam DataFrame
-
-- Dataset diperiksa untuk mengetahui apakah ada baris duplikat.
-- Jika ditemukan, baris tersebut dihapus untuk menghindari bias dalam analisis dan pemodelan.
-- Tujuannya adalah menjaga kualitas dan integritas data agar hasil prediksi tidak salah arah.
 
 ### Menghapus Kolom Tidak Relevan
 
@@ -200,7 +203,7 @@ Berdasarkan grafik di atas, dapat disimpulkan bahwa **Average Meal Price** dan *
   - Tentukan batas bawah (**Q1 - 1.5 * IQR**) dan batas atas (**Q3 + 1.5 * IQR**).
   - Data di luar batas tersebut dianggap sebagai outlier.
 - Outlier pada `Revenue` dihapus agar model tidak bias oleh nilai ekstrem.
-- Tujuan: menjaga performa model tetap stabil dan akurat.
+- Tujuannya adalah menjaga performa model tetap stabil dan akurat.
 
 ### Identifikasi Fitur Kategorikal dan Numerikal
 
