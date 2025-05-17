@@ -151,7 +151,7 @@ Grafik menunjukkan bahwa terdapat hubungan positif antara jumlah pengikut media 
 Grafik menunjukkan bahwa terdapat hubungan positif yang jelas antara kapasitas tempat duduk restoran dengan rata-rata pendapatan (Revenue). Restoran dengan kapasitas kecil (29–45 kursi) memiliki pendapatan terendah, sementara restoran dengan kapasitas sangat besar (75–90 kursi) mencatatkan pendapatan tertinggi, mendekati $900.000. Tren yang konsisten ini mengindikasikan bahwa semakin besar daya tampung pelanggan, semakin besar pula potensi pemasukan restoran. Hal ini logis karena lebih banyak kursi memungkinkan lebih banyak transaksi dalam satu waktu, sehingga kapasitas tempat duduk merupakan faktor operasional kunci dalam memaksimalkan revenue.
 
 
-![image](https://github.com/user-attachments/assets/b74d7e20-40db-4485-b461-c0783e7050b8)
+![image](https://github.com/user-attachments/assets/9d7f75e4-0e17-4e29-9dca-6b3dfe1b6e14)
 
 Grafik menunjukkan bahwa semakin tinggi rata-rata harga makanan (Average Meal Price), semakin besar pula rata-rata pendapatan (Revenue) yang diperoleh restoran. Restoran dengan kategori harga murah ($25–$35) memiliki pendapatan terendah, sementara kategori sangat mahal (>$59) mencatatkan pendapatan tertinggi, mendekati $900.000. Tren ini mengindikasikan bahwa strategi penetapan harga yang lebih tinggi dapat meningkatkan revenue, kemungkinan karena margin keuntungan yang lebih besar per transaksi atau karena harga yang lebih tinggi sering diasosiasikan dengan nilai tambah seperti kualitas, lokasi premium, atau segmentasi pelanggan menengah ke atas. Namun, efektivitas strategi ini tetap bergantung pada daya beli dan ekspektasi target pasar.
 
