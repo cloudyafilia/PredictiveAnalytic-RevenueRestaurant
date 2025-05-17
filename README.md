@@ -22,20 +22,23 @@ Pendapatan merupakan indikator utama keberhasilan operasional restoran. Namun, p
 Berdasarkan masalah dan tujuan di atas, maka dapat diterapkan solusi sebagai berikut:
 
 1. **Menggunakan dataset restoran yang mencakup beberapa fitur**, yaitu:
+   
     a. Spesifikasi Restoran: Lokasi (kota), jenis layanan (Cuisine), kapasitas tempat duduk, harga rata-rata makanan, dan pengalaman koki.
+   
     b. Faktor Bisnis & Operasional: Anggaran pemasaran, jumlah pengikut media sosial, jumlah ulasan pelanggan, skor kualitas layanan, skor suasana restoran, dan jumlah reservasi mingguan.
+   
     c. Variabel target prediksi: Pendapatan (Revenue) restoran.
 
-2. **Membangun dan membandingkan beberapa model Machine Learning untuk memprediksi pendapatan restoran**, antara lain:
+3. **Membangun dan membandingkan beberapa model Machine Learning untuk memprediksi pendapatan restoran**, antara lain:
     - Linear Regression  
     - Random Forest Regressor  
     - Gradient Boosting Regressor  
     - K-Nearest Neighbor (KNN) Regressor
     - Support Vector Regression (SVR)
 
-3. **Menggunakan beberapa metrik evaluasi untuk mengukur performa model**, yaitu Mean Squared Error (MSE), Root Mean Squared Error (RMSE),  Mean Absolute Error (MAE), dan R-squared (R²).
+4. **Menggunakan beberapa metrik evaluasi untuk mengukur performa model**, yaitu Mean Squared Error (MSE), Root Mean Squared Error (RMSE),  Mean Absolute Error (MAE), dan R-squared (R²).
 
-4. **Peningkatan performa model dilakukan melalui**:
+5. **Peningkatan performa model dilakukan melalui**:
     - Pemilihan fitur terbaik (feature selection atau importance analysis)
     - Standardisasi data numerik (untuk model tertentu seperti KNN dan SVR)
     - Hyperparameter tuning pada model ensemble seperti Random Forest dan Gradient Boosting untuk mendapatkan performa optimal.
