@@ -273,17 +273,17 @@ Berdasarkan grafik di atas, dapat disimpulkan bahwa **Average Meal Price** dan *
 
 ### Identifikasi Fitur Kategorikal dan Numerikal
 
+Identifikasi ini penting karena fitur kategorikal memerlukan proses encoding agar dapat digunakan dalam model machine learning, sedangkan fitur numerikal perlu distandarisasi untuk model tertentu. Perlakuan yang sesuai pada setiap jenis fitur memastikan proses preprocessing berjalan efektif dan mencegah error pada pipeline model.
+
    ```python
    # Mengidentifikasi kolom kategorikal
    categorical_features = df.select_dtypes(include='object').columns
    print("Fitur Kategorikal:", categorical_features)
    ```
 
-- **Fitur Kategorikal**:
-  - Location
-  - Cuisine
-  - Parking Availability
+   ![image](https://github.com/user-attachments/assets/3076d802-df2e-4ee1-b6a1-ec2562a6af36)
 
+Kolom kategorikal diidentifikasi dengan select_dtypes(include='object'), seperti location, cuisine, dan parking availability. Fitur-fitur ini nantinya perlu diubah menjadi representasi numerik melalui encoding sebelum digunakan dalam model machine learning.
 
    ```python
    # Mengidentifikasi kolom numerik
@@ -291,22 +291,9 @@ Berdasarkan grafik di atas, dapat disimpulkan bahwa **Average Meal Price** dan *
    print("Fitur Numerikal:", numerical_features)
    ```
 
-   
-- **Fitur Numerikal**:
-  - Rating
-  - Seating Capacity
-  - Average Meal Price
-  - Marketing Budget
-  - Social Media Followers
-  - Chef Experience Years
-  - Number of Reviews
-  - Avg Review Length
-  - Ambience Score
-  - Service Quality Score
-  - Weekend Reservations
-  - Weekday Reservations
+   ![image](https://github.com/user-attachments/assets/963351af-0bcc-4bb9-a9c1-e6fa238f2223)
 
-Identifikasi ini penting karena fitur kategorikal memerlukan proses encoding agar dapat digunakan dalam model machine learning, sedangkan fitur numerikal perlu distandarisasi untuk model tertentu. Perlakuan yang sesuai pada setiap jenis fitur memastikan proses preprocessing berjalan efektif dan mencegah error pada pipeline model.
+Tahap ini bertujuan mengidentifikasi kolom numerik dalam DataFrame X menggunakan select_dtypes(include=np.number). Kolom-kolom seperti seating capacity, average meal price, marketing budget, revenue, dan lain-lain termasuk dalam kategori numerik, dan akan diproses lebih lanjut sesuai kebutuhan analisis dan modeling.
 
 ### Encoding Fitur Kategorikal
 
