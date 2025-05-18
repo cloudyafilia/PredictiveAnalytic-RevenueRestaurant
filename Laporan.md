@@ -11,10 +11,12 @@ Dengan mempertimbangkan temuan-temuan tersebut, pendekatan berbasis machine lear
 Pendapatan merupakan indikator utama keberhasilan operasional restoran. Namun, pendapatan sebuah restoran juga dipengaruhi oleh berbagai faktor yang kompleks dan saling berinteraksi, seperti lokasi, jenis layanan, dan strategi pemasaran, sehingga diperlukan pendekatan prediktif berbasis data untuk memahami dan mengestimasi pendapatan secara lebih akurat.
 
 ### Problem Statements
+Adapun rumusan masalah dalam analisis ini adalah sebagai berikut.
 1. Bagaimana memprediksi pendapatan restoran dari fitur-fitur yang tersedia?
 2. Fitur mana yang paling berpengaruh dalam menentukan besarnya revenue?
 
 ### Goals
+Berdasarkan rumusan masalah yang telah dipaparkan, maka diperoleh tujuan sebagai berikut.
 1. Membangun model Machine Learning untuk prediksi revenue restoran.
 2. Mengidentifikasi fitur-fitur yang berkontribusi besar terhadap revenue.
 
@@ -129,13 +131,30 @@ Berdasarkan masalah dan tujuan di atas, maka dapat diterapkan solusi sebagai ber
 
 ### 4. Pemeriksaan Missing Value
 
+ Pengecekan missing values dapat menggunakan kode sebagai berikut.
+  ```python
+  # Memeriksa missing value
+  df.isnull().sum()
+
+![image](https://github.com/user-attachments/assets/58ea8018-c8f4-4e41-b65e-6f60db064488)
+
 Dataset ini telah dicek terhadap nilai kosong (missing values), dan **tidak ditemukan nilai yang hilang** di seluruh kolom. Ini menunjukkan kualitas data yang baik dari sisi kelengkapan.
 
 ### 5. Pemeriksaan Duplikasi Data
 
+  Pengecekan data duplikat dapat menggunakan kode sebagai berikut.
+  ```python
+  # Memeriksa duplikasi data
+  jumlah_duplikat = df.duplicated().sum()
+    print(f"Jumlah baris duplikat: {jumlah_duplikat}")
+
+![image](https://github.com/user-attachments/assets/d793da9c-513d-445f-839d-31bc6f5c30b5)
+
 Pemeriksaan terhadap baris yang duplikat menunjukkan bahwa **tidak ada data duplikat** pada dataset. Setiap restoran memiliki ID unik yang dapat dikenali melalui kolom `Name`.
 
 ### 6. Pemeriksaan Outlier
+
+![image](https://github.com/user-attachments/assets/4f4aa2c3-3125-488e-ad6c-47f36497031a)
 
 Beberapa fitur numerik, terutama `Revenue`, mengandung nilai outlier berdasarkan analisis IQR (Interquartile Range). Nilai-nilai ekstrem ini akan ditangani pada tahap data preparation untuk menghindari bias model prediksi.
 
@@ -143,6 +162,14 @@ Beberapa fitur numerik, terutama `Revenue`, mengandung nilai outlier berdasarkan
 Analisis eksploratif dilakukan untuk memahami distribusi data dan hubungan antar fitur. Terdiri dari:
 
 #### 1. Univariate Analisis
+
+![image](https://github.com/user-attachments/assets/1d935347-9dec-45b5-89d5-892fb2b538f6)
+
+Visualisasi distribusi variabel kategorik pada dataset restoran menunjukkan sebaran yang cukup merata untuk sebagian besar kategori. Pada fitur **Location**, restoran paling banyak berada di area Suburban (35.3%) dan Rural (35.1%), sementara Downtown menempati porsi lebih kecil (29.6%). Untuk fitur **Cuisine**, jenis masakan terdistribusi relatif seimbang, dengan kategori French (17.3%) dan American (17.2%) mendominasi secara tipis, sedangkan Japanese menjadi yang paling sedikit (15.1%). Sementara itu, variabel **Parking Availability** menunjukkan distribusi yang hampir simetris, dengan proporsi “Yes” (50.0%) dan “No” (50.0%) hampir identik. Temuan ini mengindikasikan bahwa tidak ada dominasi ekstrem pada variabel-variabel kategorik, sehingga seluruh kategori berpotensi memiliki pengaruh terhadap pendapatan restoran yang perlu dianalisis lebih lanjut.
+
+![image](https://github.com/user-attachments/assets/3ca0b3cc-23a7-4448-9746-7d444b47242e)
+
+Visualisasi distribusi variabel numerik pada dataset restoran memperlihatkan bahwa sebagian besar fitur memiliki sebaran yang tidak simetris atau cenderung skewed. Beberapa variabel seperti **Marketing Budget**, **Social Media Followers**, serta **Weekend** dan **Weekday Reservations** menunjukkan pola skewed ke kanan, yang mengindikasikan keberadaan outlier atau nilai ekstrem di sisi kanan distribusi. Sebaliknya, variabel seperti **Rating**, **Seating Capacity**, **Ambience Score**, dan **Service Quality Score** tampak relatif simetris atau mendekati distribusi normal. Beberapa variabel lainnya seperti **Average Meal Price**, **Chef Experience Years**, dan **Number of Reviews** memperlihatkan distribusi multimodal atau sebaran data yang lebar. Potensi keberadaan outlier juga harus ditangani dengan cermat agar tidak mengganggu performa model prediktif yang akan dibangun.
 
 ![image](https://github.com/user-attachments/assets/c475a711-e5cf-40fb-a7c2-ca4ad3fa5f91)
 
@@ -152,10 +179,12 @@ Distribusi Revenue divisualisasikan menggunakan histogram yang menunjukkan sebag
 
 ![image](https://github.com/user-attachments/assets/28b4998a-8865-4751-a2cb-443dd1585066)
 
+
 Grafik menunjukkan bahwa terdapat hubungan positif antara jumlah pengikut media sosial dengan rata-rata pendapatan (Revenue) restoran. Restoran dengan pengikut sedikit (0–20k) memiliki pendapatan terendah, sementara restoran dengan pengikut sangat banyak (>60k) mencatatkan pendapatan rata-rata tertinggi, mendekati $900.000. Tren ini mengindikasikan bahwa semakin tinggi eksposur restoran di media sosial, semakin besar peluang untuk menarik pelanggan dan meningkatkan pendapatan. Oleh karena itu, strategi pemasaran digital dan peningkatan interaksi di media sosial tampaknya menjadi faktor penting dalam mendukung performa keuangan restoran.
 
 
 ![image](https://github.com/user-attachments/assets/71c55c4a-f594-43a7-a1bb-e7c428cf6760)
+
 
 Grafik menunjukkan bahwa terdapat hubungan positif yang jelas antara kapasitas tempat duduk restoran dengan rata-rata pendapatan (Revenue). Restoran dengan kapasitas kecil (29–45 kursi) memiliki pendapatan terendah, sementara restoran dengan kapasitas sangat besar (75–90 kursi) mencatatkan pendapatan tertinggi, mendekati $900.000. Tren yang konsisten ini mengindikasikan bahwa semakin besar daya tampung pelanggan, semakin besar pula potensi pemasukan restoran. Hal ini logis karena lebih banyak kursi memungkinkan lebih banyak transaksi dalam satu waktu, sehingga kapasitas tempat duduk merupakan faktor operasional kunci dalam memaksimalkan revenue.
 
