@@ -135,6 +135,7 @@ Berdasarkan masalah dan tujuan di atas, maka dapat diterapkan solusi sebagai ber
   ```python
   # Memeriksa missing value
   df.isnull().sum()
+  ```
 
 ![image](https://github.com/user-attachments/assets/58ea8018-c8f4-4e41-b65e-6f60db064488)
 
@@ -147,6 +148,7 @@ Dataset ini telah dicek terhadap nilai kosong (missing values), dan **tidak dite
   # Memeriksa duplikasi data
   jumlah_duplikat = df.duplicated().sum()
     print(f"Jumlah baris duplikat: {jumlah_duplikat}")
+  ```
 
 ![image](https://github.com/user-attachments/assets/d793da9c-513d-445f-839d-31bc6f5c30b5)
 
