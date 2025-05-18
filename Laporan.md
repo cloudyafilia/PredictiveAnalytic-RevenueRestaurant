@@ -284,11 +284,13 @@ Berdasarkan grafik di atas, dapat disimpulkan bahwa **Average Meal Price** dan *
   - Cuisine
   - Parking Availability
 
+
    ```python
    # Mengidentifikasi kolom numerik
    numerical_features = X.select_dtypes(include=np.number).columns
    print("Fitur Numerikal:", numerical_features)
    ```
+
    
 - **Fitur Numerikal**:
   - Rating
