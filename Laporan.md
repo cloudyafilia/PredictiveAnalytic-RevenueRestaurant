@@ -540,13 +540,14 @@ di mana:
 
 ### Evaluasi Model
 
-| Model                             | MSE              | RMSE     | MAE      | R²    | Rank_MSE | Rank_RMSE | Rank_MAE | Rank_R² | Total Score |
-|----------------------------------|------------------|----------|----------|-------|----------|------------|-----------|----------|--------------|
-| Linear Regression                | 2,672,378,391.21 | 51,695.05| 39,515.84| 0.96  | 4        | 4          | 4         | 4        | 16           |
-| Random Forest Regressor         |   64,171,992.36  |  8,010.74|  6,175.19| 1.00  | 1        | 1          | 1         | 1        | 4            |
-| Gradient Boosting Regressor     |   94,071,218.79  |  9,699.03|  7,470.66| 1.00  | 2        | 2          | 2         | 2        | 8            |
-| K-Nearest Neighbors Regressor   | 5,944,692,875.42 | 77,101.83| 61,829.45| 0.90  | 5        | 5          | 5         | 5        | 20           |
-| Support Vector Regression       |  385,510,196.76  | 19,634.41| 15,119.92| 0.99  | 3        | 3          | 3         | 3        | 12           |
+| Model                             | MSE              | RMSE      | MAE       | R²     | Rank MSE | Rank RMSE | Rank MAE | Rank R² | Total Score |
+|----------------------------------|------------------|-----------|-----------|--------|----------|------------|----------|---------|--------------|
+| Linear Regression                | 2,672,378,391.21 | 51,695.05 | 39,515.84 | 0.9569 | 4        | 4          | 4        | 4       | 16           |
+| **Random Forest Regressor**      | 64,171,992.36    | 8,010.74  | 6,175.19  | 0.9990 | 1        | 1          | 1        | 1       | 4            |
+| Gradient Boosting Regressor      | 94,071,218.79    | 9,699.03  | 7,470.66  | 0.9985 | 2        | 2          | 2        | 2       | 8            |
+| K-Nearest Neighbors Regressor (K=5) | 5,944,692,875.42 | 77,101.83 | 61,829.45 | 0.9041 | 5        | 5          | 5        | 5       | 20           |
+| Support Vector Regression        | 385,510,196.76   | 19,634.41 | 15,119.92 | 0.9938 | 3        | 3          | 3        | 3       | 12           |
+
 
 Model terbaik berdasarkan gabungan semua metrik: **Random Forest Regressor** (Total Score = 4)
 
