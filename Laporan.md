@@ -540,15 +540,15 @@ di mana:
 
 ### Evaluasi Model
 
-| Model                     | MSE           | RMSE        | MAE         | R²       | Rank_MSE | Rank_RMSE | Rank_MAE | Rank_R² | Total Score |
-|---------------------------|---------------|-------------|-------------|----------|----------|-----------|----------|---------|-------------|
-| Linear Regression          | 2.672e+09     | 51695.05    | 39515.84    | 0.956909 | 4        | 4         | 4        | 4       | 16          |
-| Decision Tree              | 2.407e+08     | 15513.61    | 11858.45    | 0.996119 | 3        | 3         | 3        | 3       | 12          |
-| **Random Forest**          | **6.417e+07** | **8010.74** | **6175.19** | **0.998965** | **1**    | **1**     | **1**    | **1**   | **4**       |
-| Gradient Boosting          | 9.407e+07     | 9699.03     | 7470.66     | 0.998483 | 2        | 2         | 2        | 2       | 8           |
-| K-Nearest Neighbors (K=5)  | 5.945e+09     | 77101.83    | 61829.45    | 0.904145 | 5        | 5         | 5        | 5       | 20          |
+| Model                             | MSE              | RMSE     | MAE      | R²    | Rank_MSE | Rank_RMSE | Rank_MAE | Rank_R² | Total Score |
+|----------------------------------|------------------|----------|----------|-------|----------|------------|-----------|----------|--------------|
+| Linear Regression                | 2,672,378,391.21 | 51,695.05| 39,515.84| 0.96  | 4        | 4          | 4         | 4        | 16           |
+| Random Forest Regressor         |   64,171,992.36  |  8,010.74|  6,175.19| 1.00  | 1        | 1          | 1         | 1        | 4            |
+| Gradient Boosting Regressor     |   94,071,218.79  |  9,699.03|  7,470.66| 1.00  | 2        | 2          | 2         | 2        | 8            |
+| K-Nearest Neighbors Regressor   | 5,944,692,875.42 | 77,101.83| 61,829.45| 0.90  | 5        | 5          | 5         | 5        | 20           |
+| Support Vector Regression       |  385,510,196.76  | 19,634.41| 15,119.92| 0.99  | 3        | 3          | 3         | 3        | 12           |
 
-Model terbaik berdasarkan gabungan semua metrik: **Random Forest** (Total Score = 4)
+Model terbaik berdasarkan gabungan semua metrik: **Random Forest Regressor** (Total Score = 4)
 
 Pemilihan metrik evaluasi tersebut sesuai dengan konteks regresi pada prediksi nilai numerik seperti revenue, di mana kesalahan prediksi (dalam satuan asli maupun absolut) dan kemampuan model menjelaskan variasi data menjadi indikator utama performa model.
 
@@ -562,7 +562,7 @@ Bagian ini membahas tentang fitur-fitur apa saja yang paling berpengaruh terhada
 
 ![image](https://github.com/user-attachments/assets/5faee70e-fb88-41a0-8f3d-433623f6230c)
 
-Berdasarkan hasil analisis feature importance dari tiga model regresi—Linear Regression, Random Forest, dan Gradient Boosting—ditemukan bahwa fitur-fitur berikut secara konsisten memiliki pengaruh paling signifikan terhadap prediksi revenue restoran:
+Berdasarkan hasil analisis feature importance dari tiga model regresi—Linear Regression, Random Forest Regressor, dan Gradient Boosting Regressor—ditemukan bahwa fitur-fitur berikut secara konsisten memiliki pengaruh paling signifikan terhadap prediksi revenue restoran:
 
 - **Average Meal Price** : Merupakan fitur dengan kontribusi tertinggi di semua model. Semakin tinggi harga rata-rata makanan, semakin besar potensi revenue, terutama jika dikombinasikan dengan strategi nilai tambah seperti kualitas dan positioning pasar.
 
@@ -582,9 +582,9 @@ Selain ketiga fitur utama tersebut, beberapa fitur lain juga memberikan kontribu
 
 Berdasarkan hasil eksperimen dan evaluasi terhadap berbagai model regresi yang diterapkan, proyek ini berhasil menjawab rumusan masalah yang telah ditetapkan, yaitu memprediksi revenue restoran berdasarkan fitur-fitur karakteristik restoran serta memahami hubungan antar fitur terhadap pendapatan.
 
-1. Proyek ini telah mengembangkan beberapa model prediksi revenue dengan pendekatan Machine Learning, yaitu Linear Regression, Random Forest Regressor, Gradient Boosting Regressor, K-Nearest Neighbors (KNN) Regression, dan Support Vector Regression (SVR). Evaluasi performa model menggunakan metrik MSE, RMSE, MAE, dan R² menunjukkan bahwa **Random Forest Regressor** menjadi model terbaik dengan akurasi tertinggi dan kesalahan prediksi terendah. Model ini dipilih karena mampu menggabungkan prediksi dari banyak decision tree secara ensemble, sehingga menghasilkan model yang kuat, akurat, dan tahan terhadap overfitting.
+1. Proyek ini telah mengembangkan beberapa model prediksi revenue dengan pendekatan Machine Learning, yaitu Linear Regression, Random Forest Regressor, Gradient Boosting Regressor, K-Nearest Neighbors (KNN) Regressor, dan Support Vector Regression (SVR). Evaluasi performa model menggunakan metrik MSE, RMSE, MAE, dan R² menunjukkan bahwa **Random Forest Regressor** menjadi model terbaik dengan akurasi tertinggi dan kesalahan prediksi terendah. Model ini dipilih karena mampu menggabungkan prediksi dari banyak decision tree secara ensemble, sehingga menghasilkan model yang kuat, akurat, dan tahan terhadap overfitting.
 
-2. Hasil analisis feature importance dari Linear Regression, Random Forest Regressor, dan Gradient Boosting menunjukkan bahwa **Average Meal Price** dan **Seating Capacity** merupakan faktor paling dominan dalam memprediksi revenue restoran. Jenis masakan tertentu seperti **French** dan **Japanese** juga berkontribusi signifikan dalam model linier. Sementara itu, fitur seperti **Marketing Budget**, **Social Media Followers**, serta **Service Quality** dan **Ambience Score** memiliki pengaruh lebih kecil, namun tetap relevan dalam membentuk pengalaman pelanggan dan meningkatkan pendapatan secara tidak langsung.
+2. Hasil analisis feature importance dari Linear Regression, Random Forest Regressor, dan Gradient Boosting Regressor menunjukkan bahwa **Average Meal Price** dan **Seating Capacity** merupakan faktor paling dominan dalam memprediksi revenue restoran. Jenis masakan tertentu seperti **French** dan **Japanese** juga berkontribusi signifikan dalam model linier. Sementara itu, fitur seperti **Marketing Budget**, **Social Media Followers**, serta **Service Quality** dan **Ambience Score** memiliki pengaruh lebih kecil, namun tetap relevan dalam membentuk pengalaman pelanggan dan meningkatkan pendapatan secara tidak langsung.
 
 ### Insight
 Dengan memanfaatkan model Machine Learning, khususnya Random Forest Regressor, prediksi revenue restoran dapat dilakukan secara akurat berdasarkan data karakteristik restoran. Selain itu, pemahaman mengenai fitur-fitur yang paling berpengaruh dapat menjadi acuan strategis bagi pelaku bisnis restoran dalam mengoptimalkan pendapatan melalui pengelolaan anggaran pemasaran, penetapan harga menu, dan manajemen kapasitas layanan. Model yang telah dibangun menunjukkan bahwa penerapan kecerdasan buatan dalam analisis bisnis restoran memberikan manfaat nyata dalam mendukung pengambilan keputusan berbasis data.
