@@ -288,7 +288,7 @@ Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapka
 
 ### 1. Linear Regression
 
-**Linear Regression** adalah model dasar yang memprediksi revenue restoran berdasarkan hubungan linier antara fitur-fitur seperti Seating Capacity, Average Meal Price, Marketing Budget, dan lainnya. Model ini berasumsi bahwa hubungan antara fitur dan target bersifat linier.
+**Linear Regression** digunakan untuk memprediksi revenue restoran berdasarkan hubungan linear dengan fitur-fitur seperti seating capacity, average meal price, marketing budget, dan lain-lain. Model ini diinisialisasi menggunakan LinearRegression() dari scikit-learn, yang memanfaatkan metode Ordinary Least Squares (OLS) untuk menghitung koefisien terbaik. Parameter umum seperti fit_intercept=True digunakan untuk memperkirakan nilai konstanta (intercept) secara otomatis.
 
 - **Kelebihan**:
   - Interpretasi koefisien mudah dan intuitif.
@@ -302,7 +302,7 @@ Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapka
 
 ### 2. Random Forest Regressor
 
-**Random Forest Regressor** adalah model ensemble yang membangun banyak decision tree dan menggabungkan hasilnya untuk memprediksi revenue. Teknik ini membantu mengurangi overfitting dan meningkatkan generalisasi.
+**Random Forest Regressor** adalah model ensemble yang memanfaatkan banyak decision tree untuk memprediksi revenue restoran. Model diinisialisasi dengan parameter n_estimators=200, max_depth=None, dan random_state=42 menggunakan scikit-learn, untuk memperoleh hasil prediksi yang stabil dan akurat. Model dilatih dengan data latih yang sudah diproses, lalu digunakan untuk memprediksi revenue pada data uji.
 
 - **Kelebihan**:
   - Lebih akurat dibanding single decision tree.
@@ -315,7 +315,7 @@ Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapka
 
 ### 3. Gradient Boosting Regressor
 
-**Gradient Boosting Regressor** membangun model secara bertahap, di mana setiap pohon berikutnya mencoba memperbaiki kesalahan prediksi dari pohon sebelumnya. Model ini sering memberikan hasil terbaik dalam berbagai kompetisi prediksi.
+**Gradient Boosting Regressor** adalah model ensemble yang membangun decision tree secara bertahap, di mana setiap pohon berfokus memperbaiki kesalahan prediksi dari pohon sebelumnya. Model diinisialisasi dengan GradientBoostingRegressor(random_state=42) dari scikit-learn untuk memastikan hasil yang konsisten. Model ini dilatih menggunakan data latih yang telah diproses, kemudian digunakan untuk memprediksi revenue pada data uji.
 
 - **Kelebihan**:
   - Akurasi tinggi dengan kemampuan menangkap pola kompleks.
@@ -329,7 +329,7 @@ Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapka
 
 ### 4. K-Nearest Neighbors (KNN) Regressor
 
-**K-Nearest Neighbors (KNN) Regressor** memprediksi revenue berdasarkan kedekatan fitur dengan data restoran lain. Model ini menghitung jarak antar data untuk menentukan prediksi.
+**K-Nearest Neighbors (KNN) Regressor** memprediksi revenue restoran dengan mencari k restoran terdekat (paling mirip) dalam data pelatihan berdasarkan fitur-fitur seperti kapasitas tempat duduk, harga makanan, dan anggaran pemasaran. Prediksi revenue dilakukan dengan menghitung rata-rata revenue dari k tetangga terdekat tersebut. Agar perhitungan jarak akurat, penting untuk memastikan semua fitur berada dalam skala yang sama. Pemilihan nilai k harus diperhatikan karena sangat mempengaruhi hasil prediksi.
 
 - **Kelebihan**:
   - Sederhana dan mudah dipahami.
@@ -343,7 +343,7 @@ Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapka
 
 ### 5. Support Vector Regression (SVR)
 
-**Support Vector Regression (SVR)** memprediksi revenue dengan mencari fungsi terbaik yang meminimalkan error dalam batas toleransi tertentu (epsilon), menggunakan kernel untuk menangkap hubungan non-linear antar fitur. Model ini cocok untuk data dengan pola kompleks dan berskala kecil hingga menengah.
+**Support Vector Regression (SVR)** memprediksi revenue restoran dengan mencari fungsi yang paling sesuai untuk memetakan hubungan antara fitur (misalnya kapasitas tempat duduk, harga makanan, anggaran pemasaran) dan target (revenue) menggunakan pendekatan margin. SVR berusaha menemukan garis (atau kurva) terbaik yang memiliki deviasi maksimal ε dari nilai aktual, namun tetap sederhana (maksimal margin minimum error). Model ini sangat efektif dalam menangkap hubungan non-linear melalui penggunaan kernel, misalnya RBF (radial basis function).
 
 - **Kelebihan**:
   - Mampu menangkap pola non-linear melalui penggunaan kernel.
