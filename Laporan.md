@@ -221,11 +221,30 @@ Berdasarkan grafik di atas, dapat disimpulkan bahwa **Average Meal Price** dan *
 
 ### Menghapus Kolom Tidak Relevan
 
+   ```python
+   # Menghapus kolom 'Name' yang tidak dibutuhkan dalam analisis
+   df.drop(['Name'], axis=1, inplace=True)
+   df.head()
+   ```
+
 - Kolom `Name` dihapus karena hanya berisi identitas unik restoran.
 - Kolom ini tidak memiliki nilai prediktif terhadap target `Revenue`.
 - Menghapus fitur seperti ini juga membantu menyederhanakan struktur data.
 
 ### Penanganan Outlier
+   ```python
+   # Penanganan outlier
+   numeric_restaurant = df.select_dtypes(include=np.number)
+
+   Q1 = numeric_restaurant.quantile(0.25)
+   Q3 = numeric_restaurant.quantile(0.75)
+   IQR = Q3-Q1
+
+   outlier_condition = (numeric_restaurant < (Q1 - 1.5 * IQR)) | (numeric_restaurant > (Q3 + 1.5 * IQR))
+   df = df[~outlier_condition.any(axis=1)]
+
+   df.shape
+   ```
 
 - Outlier dideteksi menggunakan metode **Interquartile Range (IQR)**.
 - Fokus utama penanganan outlier berada pada kolom **Revenue**.
@@ -238,6 +257,15 @@ Berdasarkan grafik di atas, dapat disimpulkan bahwa **Average Meal Price** dan *
 - Tujuannya adalah menjaga performa model tetap stabil dan akurat.
 
 ### Pemisahan Fitur dan Target serta Pembagian Dataset
+
+   ```python
+   # Membagi dataset menjadi data latih dan data uji
+   df.drop(columns=['Unnamed: 0'], inplace=True, errors='ignore')
+   X = df.drop('Revenue', axis=1)
+   y = df['Revenue']
+   X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+   ```
+
 - Dataset dipisahkan menjadi:
   - **X** → Semua fitur (independen)
   - **y** → Target prediksi, yaitu kolom `Revenue`
@@ -245,11 +273,23 @@ Berdasarkan grafik di atas, dapat disimpulkan bahwa **Average Meal Price** dan *
 
 ### Identifikasi Fitur Kategorikal dan Numerikal
 
+   ```python
+   # Mengidentifikasi kolom kategorikal
+   categorical_features = df.select_dtypes(include='object').columns
+   print("Fitur Kategorikal:", categorical_features)
+   ```
+
 - **Fitur Kategorikal**:
   - Location
   - Cuisine
   - Parking Availability
 
+   ```python
+   # Mengidentifikasi kolom numerik
+   numerical_features = X.select_dtypes(include=np.number).columns
+   print("Fitur Numerikal:", numerical_features)
+   ```
+   
 - **Fitur Numerikal**:
   - Rating
   - Seating Capacity
@@ -268,6 +308,30 @@ Identifikasi ini penting karena fitur kategorikal memerlukan proses encoding aga
 
 ### Encoding Fitur Kategorikal
 
+   ```python
+   # Menggunakan ColumnTransformer untuk menerapkan transformasi yang berbeda pada kolom yang berbeda
+   preprocessor_drop_model = ColumnTransformer(
+    transformers=[
+        ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_features),
+        ('num', 'passthrough', numerical_features)],
+    remainder='drop')
+
+   X_train_processed_drop = preprocessor_drop_model.fit_transform(X_train)
+   X_test_processed_drop = preprocessor_drop_model.transform(X_test)
+   # Mengubah hasil encoding menjadi DataFrame
+   feature_names_cat = preprocessor_drop_model.named_transformers_['cat'].get_feature_names_out(categorical_features)
+   feature_names_processed_drop = list(feature_names_cat) + list(numerical_features)
+
+   X_train_processed_drop_dense = X_train_processed_drop
+   X_test_processed_drop_dense = X_test_processed_drop
+
+   X_train_processed_drop_df = pd.DataFrame(X_train_processed_drop_dense,   columns=feature_names_processed_drop)
+   X_test_processed_drop_df = pd.DataFrame(X_test_processed_drop_dense, columns=feature_names_processed_drop)
+
+   print(X_train_processed_drop_df.head())
+   print(X_test_processed_drop_df.head())
+   ```
+
 - Fitur kategorikal diubah ke bentuk numerik menggunakan **OneHotEncoder**
 - Encoding dilakukan setelah split untuk menghindari data leakage
 - Fitur yang di-encode:
@@ -277,6 +341,21 @@ Identifikasi ini penting karena fitur kategorikal memerlukan proses encoding aga
 - Gunakan `handle_unknown='ignore'` agar aman kalau ada kategori baru di data uji
 
 ### Standarisasi Fitur Numerikal
+
+   ```python
+   # Standardisasi Fitur Numerik untuk model KNN dan SVR
+   scaler = StandardScaler()
+   # Standardisasi variabel X
+   X_train_scaled = scaler.fit_transform(X_train_processed_drop_df)
+   X_test_scaled = scaler.transform(X_test_processed_drop_df)
+   # Standardisasi target Y
+   y_scaler = StandardScaler()
+   y_train_scaled = y_scaler.fit_transform(y_train.values.reshape(-1, 1)).ravel()
+
+   # Ubah kembali ke DataFrame
+   X_train_scaled_df = pd.DataFrame(X_train_scaled, columns=X_train_processed_drop_df.columns)
+   X_test_scaled_df = pd.DataFrame(X_test_scaled, columns=X_test_processed_drop_df.columns)
+   ```
 
 - Fitur numerikal dinormalisasi menggunakan **StandardScaler**
 - Penting untuk model yang sensitif terhadap skala seperti **KNN** dan **SVR**
@@ -289,6 +368,13 @@ Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapka
 ### 1. Linear Regression
 
 **Linear Regression** digunakan untuk memprediksi revenue restoran berdasarkan hubungan linear dengan fitur-fitur seperti seating capacity, average meal price, marketing budget, dan lain-lain. Model ini diinisialisasi menggunakan LinearRegression() dari scikit-learn, yang memanfaatkan metode Ordinary Least Squares (OLS) untuk menghitung koefisien terbaik. Parameter umum seperti fit_intercept=True digunakan untuk memperkirakan nilai konstanta (intercept) secara otomatis.
+
+   ```python
+   # Model 1: Linear Regression
+   linear_model_drop = LinearRegression()
+   linear_model_drop.fit(X_train_processed_drop_df, y_train)
+   y_pred_linear_drop = linear_model_drop.predict(X_test_processed_drop_df)
+   ```
 
 - **Kelebihan**:
   - Interpretasi koefisien mudah dan intuitif.
@@ -304,6 +390,17 @@ Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapka
 
 **Random Forest Regressor** adalah model ensemble yang memanfaatkan banyak decision tree untuk memprediksi revenue restoran. Model diinisialisasi dengan parameter n_estimators=200, max_depth=None, dan random_state=42 menggunakan scikit-learn, untuk memperoleh hasil prediksi yang stabil dan akurat. Model dilatih dengan data latih yang sudah diproses, lalu digunakan untuk memprediksi revenue pada data uji.
 
+   ```python
+   # Model 2: Random Forest Regressor 
+   best_forest_model = RandomForestRegressor(
+    n_estimators=200,
+    max_depth=None,
+    random_state=42
+   )
+   best_forest_model.fit(X_train_processed_drop_df, y_train)
+   y_pred_best_forest = best_forest_model.predict(X_test_processed_drop_df)
+   ```
+
 - **Kelebihan**:
   - Lebih akurat dibanding single decision tree.
   - Mengurangi overfitting dengan averaging hasil banyak pohon.
@@ -316,6 +413,13 @@ Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapka
 ### 3. Gradient Boosting Regressor
 
 **Gradient Boosting Regressor** adalah model ensemble yang membangun decision tree secara bertahap, di mana setiap pohon berfokus memperbaiki kesalahan prediksi dari pohon sebelumnya. Model diinisialisasi dengan GradientBoostingRegressor(random_state=42) dari scikit-learn untuk memastikan hasil yang konsisten. Model ini dilatih menggunakan data latih yang telah diproses, kemudian digunakan untuk memprediksi revenue pada data uji.
+
+   ```python
+   # Model 3: Gradient Boosting Regressor
+   gb_model_drop = GradientBoostingRegressor(random_state=42)
+   gb_model_drop.fit(X_train_processed_drop_df, y_train)
+   y_pred_gb_drop = gb_model_drop.predict(X_test_processed_drop_df)
+   ```
 
 - **Kelebihan**:
   - Akurasi tinggi dengan kemampuan menangkap pola kompleks.
@@ -331,6 +435,13 @@ Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapka
 
 **K-Nearest Neighbors (KNN) Regressor** memprediksi revenue restoran dengan mencari k restoran terdekat (paling mirip) dalam data pelatihan berdasarkan fitur-fitur seperti kapasitas tempat duduk, harga makanan, dan anggaran pemasaran. Prediksi revenue dilakukan dengan menghitung rata-rata revenue dari k tetangga terdekat tersebut. Agar perhitungan jarak akurat, penting untuk memastikan semua fitur berada dalam skala yang sama. Pemilihan nilai k harus diperhatikan karena sangat mempengaruhi hasil prediksi.
 
+   ```python
+   # Model 4: K-Nearest Neighbor (KNN)
+   knn_model = KNeighborsRegressor(n_neighbors=5)
+   knn_model.fit(X_train_scaled_df, y_train)
+   y_pred_knn = knn_model.predict(X_test_scaled_df)
+   ```
+
 - **Kelebihan**:
   - Sederhana dan mudah dipahami.
   - Tidak mengasumsikan bentuk hubungan linier atau non-linier.
@@ -344,6 +455,14 @@ Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapka
 ### 5. Support Vector Regression (SVR)
 
 **Support Vector Regression (SVR)** memprediksi revenue restoran dengan mencari fungsi yang paling sesuai untuk memetakan hubungan antara fitur (misalnya kapasitas tempat duduk, harga makanan, anggaran pemasaran) dan target (revenue) menggunakan pendekatan margin. SVR berusaha menemukan garis (atau kurva) terbaik yang memiliki deviasi maksimal ε dari nilai aktual, namun tetap sederhana (maksimal margin minimum error). Model ini sangat efektif dalam menangkap hubungan non-linear melalui penggunaan kernel, misalnya RBF (radial basis function).
+
+   ```python
+   # Model 5: Support Vector Regression (SVR)
+   svr_model = SVR(kernel='rbf', C=1000, epsilon=0.1)
+   svr_model.fit(X_train_scaled_df, y_train_scaled)
+   y_pred_scaled = svr_model.predict(X_test_scaled_df)
+   y_pred_svr = y_scaler.inverse_transform(y_pred_scaled.reshape(-1, 1)).ravel()
+   ```
 
 - **Kelebihan**:
   - Mampu menangkap pola non-linear melalui penggunaan kernel.
