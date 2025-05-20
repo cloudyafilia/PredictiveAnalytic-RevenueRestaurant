@@ -352,7 +352,7 @@ Tahap ini bertujuan mengidentifikasi kolom numerik dalam DataFrame X menggunakan
 
 ## Modeling
 
-Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapkan untuk memodelkan hubungan antara fitur-fitur restoran dan total pendapatan (Revenue). Linear Regression digunakan sebagai baseline model untuk mengidentifikasi hubungan linier dasar. Support Vector Regression (SVR) diaplikasikan untuk menangkap pola non-linier dengan pendekatan margin dan kernel, sehingga mampu memodelkan hubungan kompleks antar variabel. Random Forest Regressor digunakan sebagai ensemble berbasis pohon yang memadukan prediksi banyak pohon untuk meningkatkan akurasi dan mengurangi overfitting. Gradient Boosting Regressor memperbaiki kesalahan prediksi secara bertahap sehingga seringkali menghasilkan performa terbaik. Terakhir, K-Nearest Neighbors (KNN) Regressor diterapkan untuk memprediksi revenue berdasarkan kemiripan fitur antar restoran. Setiap model memiliki karakteristik, kelebihan, dan kekurangannya masing-masing. Oleh karena itu, digunakan beberapa model untuk membandingkan efektivitas dan akurasi prediksi revenue. Tahapan ini membahas mengenai model machine learning yang digunakan untuk menyelesaikan permasalahan prediksi revenue restoran.
+Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapkan untuk memodelkan hubungan antara fitur-fitur restoran dan total pendapatan (Revenue) dengan beberapa alasan yang mendasari pemilihan algoritma tersebut. Linear Regression digunakan sebagai baseline model untuk mengidentifikasi hubungan linier dasar. Support Vector Regression (SVR) diaplikasikan untuk menangkap pola non-linier dengan pendekatan margin dan kernel, sehingga mampu memodelkan hubungan kompleks antar variabel. Random Forest Regressor digunakan sebagai ensemble berbasis pohon yang memadukan prediksi banyak pohon untuk meningkatkan akurasi dan mengurangi overfitting. Gradient Boosting Regressor memperbaiki kesalahan prediksi secara bertahap sehingga seringkali menghasilkan performa terbaik. Terakhir, K-Nearest Neighbors (KNN) Regressor diterapkan untuk memprediksi revenue berdasarkan kemiripan fitur antar restoran. Setiap model memiliki karakteristik, kelebihan, dan kekurangannya masing-masing. Oleh karena itu, digunakan beberapa model untuk membandingkan efektivitas dan akurasi prediksi revenue. Tahapan ini membahas mengenai model machine learning yang digunakan untuk menyelesaikan permasalahan prediksi revenue restoran.
 
 ### 1. Linear Regression
 
@@ -389,6 +389,10 @@ Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapka
    best_forest_model.fit(X_train_processed_drop_df, y_train)
    y_pred_best_forest = best_forest_model.predict(X_test_processed_drop_df)
    ```
+- **Alasan Pemilihan Parameter**:
+  - `n_estimators=200`: Dipilih berdasarkan hasil percobaan bertahap (dari 100, 150, hingga 200) yang menunjukkan bahwa peningkatan jumlah pohon sampai 200 memberikan stabilitas prediksi tanpa menambah waktu pelatihan secara signifikan.
+  - `max_depth=None`: Tidak dibatasi untuk mengizinkan pohon tumbuh penuh. Pada tahap percobaan, pembatasan kedalaman (max_depth=10–20) justru menurunkan performa.
+  - `random_state=42`: Digunakan agar hasil replikasi tetap konsisten.
 
 - **Kelebihan**:
   - Lebih akurat dibanding single decision tree.
@@ -409,6 +413,8 @@ Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapka
    gb_model_drop.fit(X_train_processed_drop_df, y_train)
    y_pred_gb_drop = gb_model_drop.predict(X_test_processed_drop_df)
    ```
+- **Alasan Pemilihan Parameter**:
+   Parameter default digunakan (`learning_rate=0.1, n_estimators=100`) karena hasil awal sudah cukup baik, sehingga tidak perlu dilakukan tuning.
 
 - **Kelebihan**:
   - Akurasi tinggi dengan kemampuan menangkap pola kompleks.
@@ -430,6 +436,8 @@ Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapka
    knn_model.fit(X_train_scaled_df, y_train)
    y_pred_knn = knn_model.predict(X_test_scaled_df)
    ```
+- **Alasan Pemilihan Parameter**:
+   `n_neighbors=5`: Merupakan nilai default dan juga diuji coba dari k = 3 hingga 10. Nilai 5 memberikan hasil terbaik dibandingkan nilai k lainnya dalam hal keseimbangan antara bias dan variansi. Nilai ini juga sesuai dengan prinsip umum bahwa nilai ganjil (untuk regresi dan klasifikasi) sering menghindari situasi tie atau overfitting.
 
 - **Kelebihan**:
   - Sederhana dan mudah dipahami.
@@ -452,6 +460,10 @@ Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapka
    y_pred_scaled = svr_model.predict(X_test_scaled_df)
    y_pred_svr = y_scaler.inverse_transform(y_pred_scaled.reshape(-1, 1)).ravel()
    ```
+- **Alasan Pemilihan Parameter**:
+  - `C=1000`: Dipilih setelah uji coba beberapa nilai (C=1, 10, 100, 1000), dan C=1000 memberikan margin yang cukup fleksibel untuk menampung variasi revenue yang tinggi.
+  - `epsilon=0.1`: Nilai default yang mengatur toleransi kesalahan prediksi. Karena targetnya adalah revenue dalam satuan ribuan, nilai ini masih masuk akal.
+  - `kernel='rbf'`: Kernel non-linear ini dipilih karena data menunjukkan pola non-linier antar fitur.
 
 - **Kelebihan**:
   - Mampu menangkap pola non-linear melalui penggunaan kernel.
@@ -462,6 +474,15 @@ Dalam proyek prediksi revenue restoran ini, beberapa algoritma regresi diterapka
   - Memerlukan penskalaan fitur dan target.
   - Sensitif terhadap pemilihan parameter (seperti C dan epsilon).
   - Kurang efisien untuk dataset besar dan interpretasi model sulit.
+
+### Perbandingan Model
+| Model               | Kelebihan                                                             | Kekurangan                                                              |
+|---------------------|-------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| Linear Regression   | Mudah diinterpretasikan, cepat dihitung                               | Tidak menangkap hubungan non-linear, sensitif terhadap outlier           |
+| Random Forest       | Akurasi tinggi, tahan outlier, mendukung feature importance           | Komputasi lebih berat, interpretasi lebih sulit                          |
+| Gradient Boosting   | Akurasi sangat tinggi, menangani kesalahan bertahap                   | Rentan overfitting, tuning kompleks                                      |
+| KNN                 | Sederhana, tidak membuat asumsi                                      | Sensitif terhadap skala data, tidak efisien untuk dataset besar          |
+| SVR                 | Menangani non-linear dengan baik, robust untuk dataset kecil          | Butuh scaling, tuning parameter rumit, tidak efisien untuk dataset besar |
 
 ## Evaluation
 
